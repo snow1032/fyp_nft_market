@@ -10,10 +10,13 @@ import Contact from "../pages/Contact";
 import Wallet from "../pages/Wallet";
 import NftDetails from "../pages/NftDetails";
 
+import Login from "../pages/Login";
+
 const Routers = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="/market" element={<Market />} />
       <Route path="/create" element={<Create />} />

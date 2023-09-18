@@ -1,0 +1,18 @@
+.form__input{
+    width: 100%;
+    border-radius: 3px;
+    color: #fff;
+    padding: 8px 26px;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    border: none;
+    outline: none;
+    font-size: 0.9rem;
+    background: #343444;
+}
+
+.bid__btn{
+    width: 100%;
+    padding: 8px 20px !important;
+    font-size: 1.0rem !important;
+}
