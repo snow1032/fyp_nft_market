@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "af1fbbc329b325ed9901c80244dbadd2",
+    "content-hash": "5175d083c3b42bdc539bdedc55beaac2",
     "packages": [
         {
             "name": "brick/math",
@@ -60,6 +60,53 @@
                 }
             ],
             "time": "2023-01-15T23:15:59+00:00"
+        },
+        {
+            "name": "cloutier/php-ipfs-api",
+            "version": "0.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cloutier/php-ipfs-api.git",
+                "reference": "4b60da3adf76105bd1650d24e277a482809664eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cloutier/php-ipfs-api/zipball/4b60da3adf76105bd1650d24e277a482809664eb",
+                "reference": "4b60da3adf76105bd1650d24e277a482809664eb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cloutier\\PhpIpfsApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Cloutier",
+                    "email": "vincent@cloutier.co",
+                    "homepage": "http://vincent.cloutier.co",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A client library for the IPFS API",
+            "homepage": "https://github.com/cloutier/php-ipfs-api",
+            "keywords": [
+                "ipfs"
+            ],
+            "support": {
+                "issues": "https://github.com/cloutier/php-ipfs-api/issues",
+                "source": "https://github.com/cloutier/php-ipfs-api/tree/master"
+            },
+            "time": "2016-09-11T15:34:38+00:00"
         },
         {
             "name": "darkaonline/l5-swagger",
