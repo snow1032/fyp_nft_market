@@ -10,10 +10,7 @@ export default function Login(props){
     return (
         <Container style={{"height":"100%"}}>
             <Row className="h-100">
-                <Col xs="0" lg="6" md="6" className="m-auto">
-                    <img src={Img} alt="" className="w-100"/>
-                </Col>
-                <Col xs="12" lg="6" md="6">
+                <Col xs="12" style={{"display": "flex", "justifyContent": "center", "alignItems": "center"}}>
                     <LoginForm />
                 </Col>
             </Row>
