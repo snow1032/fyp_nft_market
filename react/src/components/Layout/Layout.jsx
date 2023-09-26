@@ -12,9 +12,9 @@ const Layout = () => {
   const {user, token} = useStateContext();
   const location = useLocation();
 
-  if(!token){
-    return <Login />
-  }
+  // if(!token){
+  //   return <Login />
+  // }
 
   return (
     <div>

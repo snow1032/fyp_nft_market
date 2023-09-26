@@ -12,6 +12,7 @@ import StepSection from "../components/ui/Step-section/StepSection";
 const Home = () => {
   return (
     <>
+   
       <HeroSection />
       <LiveAuction />
       <SellerSection />

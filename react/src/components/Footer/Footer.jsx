@@ -4,6 +4,8 @@ import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import "./footer.css";
 
 import { Link } from "react-router-dom";
+import ChatBot from '../ChatBot/chatBot';
+
 
 const MY__ACCOUNT = [
   {
@@ -64,7 +66,9 @@ const COMPANY = [
 
 const Footer = () => {
   return (
+
     <footer className="footer">
+      <ChatBot />
       <Container>
         <Row>
           <Col lg="3" md="6" sm="6" className="mb-4">
