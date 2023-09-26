@@ -4,7 +4,7 @@ import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import "./footer.css";
 
 import { Link } from "react-router-dom";
-import ChatBot from '../ChatBot/chatBot';
+import ChatBot from '../ChatBot/chatBot.jsx';
 
 
 const MY__ACCOUNT = [

@@ -20,13 +20,13 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::post('/ipfs/upload', [IPFSController::class, 'uploadFile']);
+    // Route::post('/ipfs/upload', [IPFSController::class, 'uploadFile']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-
+Route::post('/ipfs/upload', [IPFSController::class, 'uploadFile']);
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);

@@ -12,7 +12,7 @@ export default function ChatBot(props) {
 
   return (
     <>
-      {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
       <button ClassName="chatbot-toggler">
         <span ClassName="material-symbols-rounded">mode_comment</span>
@@ -32,8 +32,8 @@ export default function ChatBot(props) {
           <textarea placeholder="Enter a message..." spellcheck="false" required></textarea>
           <span id="send-btn" ClassName="material-symbols-rounded">send</span>
         </div>
-      </div> */}
-      <div>123</div>
+      </div>
+     
 
     </>
 
