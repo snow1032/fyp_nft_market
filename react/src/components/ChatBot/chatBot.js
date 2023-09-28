@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sendChatBtn = document.querySelector(".chat-input span");
 
     let userMessage = null; // Variable to store user's message
-    const API_KEY = "PASTE-YOUR-API-KEY"; // Paste your API key here
+    const API_KEY = "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"; // Paste your API key here
     const inputInitHeight = chatInput ? chatInput.scrollHeight : 1000;
 
     const createChatLi = (message, className) => {
@@ -33,14 +33,16 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             body: JSON.stringify({
                 model: "gpt-3.5-turbo",
-                messages: [{role: "user", content: userMessage}],
+                messages: [{ role: "user", content: userMessage }],
             })
         }
 
         // Send POST request to API, get response and set the reponse as paragraph text
         fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
             messageElement.textContent = data.choices[0].message.content.trim();
-        }).catch(() => {
+            console.log(data);
+        }).catch((error) => {
+            console.log(error);
             messageElement.classList.add("error");
             messageElement.textContent = "Oops! Something went wrong. Please try again.";
         }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const handleChat = () => {
         userMessage = chatInput.value.trim(); // Get user entered message and remove extra whitespace
-        if(!userMessage) return;
+        if (!userMessage) return;
 
         // Clear the input textarea and set its height to default
         chatInput.value = "";
@@ -57,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Append the user's message to the chatbox
         chatbox.appendChild(createChatLi(userMessage, "outgoing"));
         chatbox.scrollTo(0, chatbox.scrollHeight);
-        
+
         setTimeout(() => {
             // Display "Thinking..." message while waiting for the response
             const incomingChatLi = createChatLi("Thinking...", "incoming");
@@ -76,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chatInput.addEventListener("keydown", (e) => {
         // If Enter key is pressed without Shift key and the window 
         // width is greater than 800px, handle the chat
-        if(e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+        if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
             e.preventDefault();
             handleChat();
         }

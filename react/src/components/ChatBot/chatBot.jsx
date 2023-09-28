@@ -33,7 +33,7 @@ export default function ChatBot(props) {
         </ul>
         <div className="chat-input">
           <textarea placeholder="Enter a message..." spellcheck="false" required></textarea>
-          <span id="send-btn" ClassName="material-symbols-rounded">send</span>
+          <span id="send-btn" className="material-symbols-rounded">send</span>
         </div>
       </div> 
     </>
