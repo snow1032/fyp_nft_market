@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let userMessage = null; // Variable to store user's message
     const API_KEY = "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"; // Paste your API key here
+    // const API_KEY = "94a905c0-57d2-488d-89d4-e7fc0fe77325"; // Paste your API key here
     const inputInitHeight = chatInput ? chatInput.scrollHeight : 1000;
 
     const createChatLi = (message, className) => {
@@ -22,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const generateResponse = (chatElement) => {
         const API_URL = "https://api.openai.com/v1/chat/completions";
+        // const API_URL = "https://chatgpt.hkbu.edu.hk/general/rest/deployments/gpt-35-turbo-16k/chat/completions?api-version=2023-08-01-preview";
         const messageElement = chatElement.querySelector("p");
 
         // Define the properties and message for the API request

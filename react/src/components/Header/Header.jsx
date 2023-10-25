@@ -26,6 +26,7 @@ const NAV__LINKS = [
     display: "Login",
     url: "/login",
   },
+
 ];
 
 const Header = () => {

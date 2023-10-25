@@ -16,7 +16,8 @@ const LiveAuction = () => {
             <div className="live__auction__top d-flex align-items-center justify-content-between ">
               <h3>Live Auction</h3>
               <span>
-                <Link to="/market">Explore more</Link>
+                {/* <Link to="/market">Explore more</Link> */}
+                <Link to="#">Explore more</Link>
               </span>
             </div>
           </Col>

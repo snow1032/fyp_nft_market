@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import "./nft-card.css";
+import "../../../assets/css/button.css";
 
 import Modal from "../Modal/Modal";
 
@@ -40,8 +41,12 @@ const NftCard = (props) => {
         </div>
 
         <div className=" mt-3 d-flex align-items-center justify-content-between">
-          <button
+          {/* <button
             className="bid__btn d-flex align-items-center gap-1"
+            onClick={() => setShowModal(true)}
+          > */}
+          <button
+            className="neonButton"
             onClick={() => setShowModal(true)}
           >
             <i class="ri-shopping-bag-line"></i> Place Bid
