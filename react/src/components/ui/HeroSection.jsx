@@ -11,8 +11,8 @@ const HeroSection = () => {
       <Container>
         <Row>
           <Col lg="6" md="6">
-            <div className="hero__content">
-              <h2>
+            <div className="hero__content textGlow">
+              <h2 className="textGlow">
                 Discover rare digital art and collect
                 <span>sell extraordinary</span> NFTs
               </h2>
