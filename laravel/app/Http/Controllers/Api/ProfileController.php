@@ -43,7 +43,28 @@ class ProfileController extends Controller
     }
 
     public function uploadBackdrop(Request $request){
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:102400',
+        ]);
 
+        $user = $request->user();
+
+        if ($request->hasFile('photo') && $user) {
+            if($user->backdrop){
+                Storage::delete('backdrop/'. $user->backdrop);
+            }
+            $file = $request->file('photo');
+            $id = Str::uuid()->toString();
+            $fileName = $id . '.' . $file->getClientOriginalExtension();
+            $filePath = $file->storeAs('', $fileName, 'backdrop');
+            $url = Storage::url($filePath);
+            $user->backdrop = $fileName;
+            $user->save();
+
+            return response('OK');
+        }
+
+        return response('Error');
     }
 
     public function getIcon(Request $request){
@@ -56,6 +77,22 @@ class ProfileController extends Controller
             $image_path = 'icon/' . "default.png";
         }
 
+        $file = Storage::get($image_path);
+        $type = Storage::mimeType($image_path);
+        $response = new Response($file, 200);
+        $response->header('Content-Type', $type);
+        return $response;
+    }
+
+    public function getBackdrop(Request $request){
+        $user = $request->user();
+        $image_path = "";
+
+        if($user->backdrop){
+            $image_path = 'backdrop/' . $user->backdrop;
+        }else{
+            $image_path = 'backdrop/' . "default.png";
+        }
         $file = Storage::get($image_path);
         $type = Storage::mimeType($image_path);
         $response = new Response($file, 200);

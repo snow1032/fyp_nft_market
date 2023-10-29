@@ -50,6 +50,12 @@ return [
             'visibility' => 'private',
             'throw' => true,
         ],
+        'backdrop' => [
+            'driver' => 'local',
+            'root' => storage_path('app/backdrop'),
+            'visibility' => 'private',
+            'throw' => true,
+        ],
 
         's3' => [
             'driver' => 's3',

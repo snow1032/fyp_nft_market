@@ -23,9 +23,11 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/ipfs/upload', [IPFSController::class, 'uploadFile']);
 
+    //profile
     Route::post('/profile/upload_icon', [ProfileController::class, 'uploadIcon']);
-
     Route::get('/profile/icon', [ProfileController::class, 'getIcon']);
+    Route::post('/profile/upload_backdrop', [ProfileController::class, 'uploadBackdrop']);
+    Route::get('/profile/backdrop', [ProfileController::class, 'getBackdrop']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
