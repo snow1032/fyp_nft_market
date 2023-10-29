@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\IPFSController;
+use App\Http\Controllers\Api\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +22,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::post('/ipfs/upload', [IPFSController::class, 'uploadFile']);
+
+    Route::post('/profile/upload_icon', [ProfileController::class, 'uploadIcon']);
+
+    Route::get('/profile/icon', [ProfileController::class, 'getIcon']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -29,5 +34,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login_with_addr', [AuthController::class, 'loginWithAddress']);
 Route::post('/register', [AuthController::class, 'register']);
 

@@ -69,6 +69,24 @@ class AuthController extends Controller
         return response(compact('user', 'token'));
     }
 
+
+
+    public function loginWithAddress(Request $request){
+        $request->validate([
+            'address' => 'required',
+            'password' => 'required',
+        ]);
+        
+        $user = User::where('address',$request->input('address'))->first();
+        if($user && (Hash::check($request->input('password'), $user->password))){
+            $token = $user->createToken('main')->plainTextToken;
+            Auth::login($user);
+            return response(compact('user', 'token'));
+            // login success
+        }
+        return response("false");
+    }
+
     /**
      * @OA\Post(
      *     path="/register",
@@ -128,6 +146,7 @@ class AuthController extends Controller
         
         $request->validate([
             'name' => 'required|string|max:255',
+            'address' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -135,6 +154,7 @@ class AuthController extends Controller
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->address = $request->input('address');
         $user->password = Hash::make($request->input('password'));
         $user->save();
 
