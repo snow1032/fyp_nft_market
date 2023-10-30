@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/profile/icon', [ProfileController::class, 'getIcon']);
     Route::post('/profile/upload_backdrop', [ProfileController::class, 'uploadBackdrop']);
     Route::get('/profile/backdrop', [ProfileController::class, 'getBackdrop']);
+    Route::post('/profile/profile_data',[ProfileController::class, 'getProfile']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

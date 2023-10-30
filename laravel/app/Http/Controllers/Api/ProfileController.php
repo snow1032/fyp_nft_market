@@ -6,6 +6,7 @@ use Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -98,5 +99,17 @@ class ProfileController extends Controller
         $response = new Response($file, 200);
         $response->header('Content-Type', $type);
         return $response;
+    }
+
+
+    public function getProfile(Request $request){
+        $user = $request->user();
+        $user_profile = User::find($user->id);
+
+        return response()->json([
+            'name' => $user_profile->name,
+            'email' => $user_profile->email,
+            'biography' => $user_profile->biography,
+        ], 200);
     }
 }
