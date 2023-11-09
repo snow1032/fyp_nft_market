@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "./header.css";
 import { Container } from "reactstrap";
 import { NavLink, Link } from "react-router-dom";
-import {ethers} from 'ethers';
+import { ethers } from 'ethers';
 
 
 
@@ -51,7 +51,7 @@ const Header = () => {
     });
 
     return () => {
-      window.removeEventListener("scroll",null);
+      window.removeEventListener("scroll", null);
     };
   }, []);
 
@@ -60,7 +60,7 @@ const Header = () => {
 
   async function connectWallentAccount(e) {
     console.log("Requesting account......")
-
+    // console.log(window.ethereum)
     if (window.ethereum) {
       console.log("detected")
 
@@ -89,15 +89,15 @@ const Header = () => {
   const getUserBalance = (address) => {
     window.ethereum.request({
       method: "eth_getBalance",
-      params:[address,'latest']
-    }).then(balance=>{
-      // setUserBalance(ethers.utils.formatEther(balance))
-      setUserBalance(ethers.formatEther(balance))
-     
+      params: [address, 'latest']
+    }).then(balance => {
+      setUserBalance(ethers.utils.formatEther(balance))
+      // setUserBalance(ethers.formatEther(balance))
+
     })
- 
+
   }
- 
+
 
 
   return (
@@ -135,10 +135,11 @@ const Header = () => {
               <span>
                 <i class="ri-wallet-line"></i>
               </span>
-              <Link to="/wallet">{walletAddress ? walletAddress : "Connect Wallets"}</Link>
-             
+              {/* <Link to="/wallet">{walletAddress ? walletAddress : "Connect Wallets"}</Link> */}
+              <Link to="/#">{walletAddress ? walletAddress : "Connect Wallets"}</Link>
+
             </button>
-          
+
             <span className="mobile__menu">
               <i class="ri-menu-line" onClick={toggleMenu}></i>
             </span>
@@ -147,7 +148,7 @@ const Header = () => {
       </Container>
       <h1>ETH: {userBalance}</h1>
     </header>
-    
+
   );
 };
 

@@ -1,8 +1,113 @@
-import React from "react";
-
+// import React from "react";
+import { React, useState } from 'react';
+import { ethers } from "ethers";
+// import transactionObject from "../../Transaction/Transaction";
+import ErrorMessage from "./ErrorMessage";
+import TxList from "./TxList";
 import "./modal.css";
 
+const startPayment = async ({ setError, setTxs, ether, address }) => {
+  try {
+    // console.log(window.ethereum)
+
+    // if (!window.etherem) {
+    //   throw new Error("Metamask not found");
+    // }
+    // await window.ethereum.send("eth_requestAccounts");
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+   
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    console.log(signer)
+    // console.log("test")
+    const tx = await signer.sendTransaction({
+      to: ethers.utils.getAddress(address),
+      // to: address,
+
+      // value: ethers.utils.formatEther(ether)
+      value: ethers.utils.parseEther(ether)
+    },console.log("test"));
+
+
+    console.log("test")
+    setTxs([tx]);
+    console.log({ ether, address });
+    console.log("tx", tx);
+  } catch (err) {
+    console.log(err);
+    setError(err.message);
+  }
+}
+
 const Modal = ({ setShowModal }) => {
+
+  const [quantity, setQuantity] = useState('');
+  const [price, setPrice] = useState('0.0');
+
+
+  const handleChange = event => {
+    setQuantity(event.target.value);
+    setPrice(event.target.value * 5.89);
+    console.log('value is:', event.target.value);
+  };
+
+
+  const [error, setError] = useState();
+  const [txs, setTxs] = useState([]);
+
+  const handleSubmit = async (e) => {
+    console.log("clicked");
+    var address = "0x847a6b03B34596576465f0def9Fd543CB143a808"
+    // console.log(address);
+    e.preventDefault();
+    // const data = new FormData(e.target);
+    setError();
+    await startPayment({
+      setError,
+      setTxs,
+      ether: price.toString(),
+      address: "0x847a6b03B34596576465f0def9Fd543CB143a808",
+    });
+  };
+
+  // async function getAccount() {
+  //   if (window.ethereum) {
+  //     console.log("detected")
+
+
+  //     try {
+  //       const account = await window.ethereum.request({
+  //         method: "eth_requestAccounts",
+
+  //       });
+  //       // console.log(account);
+  //       return account[0];
+
+
+  //     } catch (error) {
+  //       console.log("Error connecting ..")
+  //     }
+
+  //   } else {
+  //     console.log("Meta Mask not dectected")
+  //   }
+  // }
+
+  // async function makePayment() {
+  //   const paymentData = {
+  //     ether: 0.5, // Example ether value
+  //     address: "0x1B132616CFF0D152713DF0A0AD7919Abde65932e", // Example address
+  //   };
+
+  //   try {
+  //     await Transaction.startPayment(paymentData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+
   return (
     <div className="modal__wrapper">
       <div className="single__modal">
@@ -20,12 +125,12 @@ const Modal = ({ setShowModal }) => {
 
         <div className="input__item mb-3">
           <h6>Enter Quantity, 7 available</h6>
-          <input type="number" placeholder="Enter quantity" />
+          <input type="number" placeholder="Enter quantity" onChange={handleChange} value={quantity} />
         </div>
 
         <div className=" d-flex align-items-center justify-content-between">
           <p>You must bid at least</p>
-          <span className="money">5.89 ETH</span>
+          <span className="money">{price} ETH</span>
         </div>
 
         <div className=" d-flex align-items-center justify-content-between">
@@ -38,9 +143,12 @@ const Modal = ({ setShowModal }) => {
           <span className="money">5.89 ETH</span>
         </div>
 
-        <button className="place__bid-btn">Place a Bid</button>
+        <button className="place__bid-btn" onClick={handleSubmit}>Place a Bid</button>
       </div>
+      <ErrorMessage message={error} />
+      <TxList txs={txs} />
     </div>
+
   );
 };
 
