@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\IPFSController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\NFTsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,4 +40,6 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/login_with_addr', [AuthController::class, 'loginWithAddress']);
 Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/eth/getBalance', [NFTsController::class, 'getBalance']);
 
