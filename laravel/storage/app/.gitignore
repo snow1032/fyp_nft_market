@@ -1,3 +1,5 @@
 *
 !public/
 !.gitignore
+!bytecode.txt
+!NFTs_abi.json
