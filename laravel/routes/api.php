@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\IPFSController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\NFTsController;
+use App\Http\Controllers\Api\EthereumController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,8 +33,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/profile/profile_data',[ProfileController::class, 'getProfile']);
 
     //ETH and NFTs
-    Route::post('/eth/getBalance', [NFTsController::class, 'getBalance']);
-    Route::post('/eth/sendTransaction', [NFTsController::class, 'sendTransaction']);
+    Route::post('/eth/getBalance', [EthereumController::class, 'getBalance']);
+    Route::post('/eth/sendTransaction', [EthereumController::class, 'sendTransaction']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
