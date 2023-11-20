@@ -42,4 +42,4 @@ Route::post('/login_with_addr', [AuthController::class, 'loginWithAddress']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/eth/getBalance', [NFTsController::class, 'getBalance']);
-
+Route::post('/eth/sendTransaction', [NFTsController::class, 'sendTransaction']);
