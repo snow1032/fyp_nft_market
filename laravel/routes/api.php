@@ -30,6 +30,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/profile/upload_backdrop', [ProfileController::class, 'uploadBackdrop']);
     Route::get('/profile/backdrop', [ProfileController::class, 'getBackdrop']);
     Route::post('/profile/profile_data',[ProfileController::class, 'getProfile']);
+
+    //ETH and NFTs
+    Route::post('/eth/getBalance', [NFTsController::class, 'getBalance']);
+    Route::post('/eth/sendTransaction', [NFTsController::class, 'sendTransaction']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -41,5 +45,5 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/login_with_addr', [AuthController::class, 'loginWithAddress']);
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::post('/eth/getBalance', [NFTsController::class, 'getBalance']);
-Route::post('/eth/sendTransaction', [NFTsController::class, 'sendTransaction']);
+
+

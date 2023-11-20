@@ -13,19 +13,18 @@ class NFTsController extends Controller
 {
     public function getBalance(Request $request)
     {
-
+        $user = $request->user();
         // Create a new Web3 instance
         $web3 = new Web3('http://localhost:8545');
 
-        // Set the sender's address and private key
-        $from_address = '0x9cAB06d6362724F483670acf3D719995508C5434';
-        $from_address_private_key = '0xf9ca041906f897d5381e8d153c2a94cf28b2c9ae09e99f3c41911105fc620edb';
+        // Set the sender's address
+        $user_address = $user->address;
 
         // Get the eth object from the web3 instance
         $eth = $web3->eth;
 
         // Get the balance asynchronously
-        $eth->getBalance($from_address, function ($err, $resp) {
+        $eth->getBalance($user_address, function ($err, $resp) {
             // Initialize response array
             $response = [];
 
@@ -38,7 +37,9 @@ class NFTsController extends Controller
             }
 
             // Encode the response as JSON and return it
+            header('Content-Type: application/json');
             echo json_encode($response);
+            
         });
 
     }
@@ -46,23 +47,27 @@ class NFTsController extends Controller
     
     public function sendTransaction(Request $request){
 
+        $request->validate([
+            'recipientAddress' => 'required|string',
+            'amount' => 'required|numeric|min:0'
+        ]);
+        $user = $request->user();
+        $senderAddr = $user->address;
+        $recipientAddr = $request->recipientAddress;
         $web3 = new Web3('http://localhost:8545');
         $eth = $web3->eth;
 
-        $senderAddress = "0xAb3C2B405BA95059797Ff01fad40587F4300491C";
 
-        $recipientAddress = "0xeC76b4EeB4b90008aBA2d8145F1908c174604EE0";
-
-        $amount = Utils::toWei('1', 'ether');
+        $amount = Utils::toWei((string) $request->amount, 'ether');
         $gasLimit = 21000;
 
         $eth->sendTransaction([
-            'from' => $senderAddress,
-            'to' => $recipientAddress,
+            'from' => $senderAddr,
+            'to' => $recipientAddr,
             'value' => '0x' . $this->bcdechex($amount),
             'gas' => '0x' . dechex($gasLimit),
 
-        ], function ($err, $transaction) use ($eth, $senderAddress, $recipientAddress) {
+        ], function ($err, $transaction) use ($eth,$senderAddr, $recipientAddr) {
             if ($err !== null) {
                 echo 'Error: ' . $err->getMessage();
                 return;
