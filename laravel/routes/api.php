@@ -46,5 +46,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/login_with_addr', [AuthController::class, 'loginWithAddress']);
 Route::post('/register', [AuthController::class, 'register']);
 
+Route::post('/nft/call', [NFTsController::class, 'callContract']);
+
 
 
