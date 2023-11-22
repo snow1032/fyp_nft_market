@@ -31,10 +31,15 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/profile/upload_backdrop', [ProfileController::class, 'uploadBackdrop']);
     Route::get('/profile/backdrop', [ProfileController::class, 'getBackdrop']);
     Route::post('/profile/profile_data',[ProfileController::class, 'getProfile']);
-
+    
+    
     //ETH and NFTs
     Route::post('/eth/getBalance', [EthereumController::class, 'getBalance']);
     Route::post('/eth/sendTransaction', [EthereumController::class, 'sendTransaction']);
+
+    Route::post('/nft/createContract', [NFTsController::class, 'createContract']);
+    Route::post('/nft/mintNFTs', [NFTsController::class, 'mintNFTs']);
+    
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -46,7 +51,10 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/login_with_addr', [AuthController::class, 'loginWithAddress']);
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::post('/nft/call', [NFTsController::class, 'callContract']);
+Route::get('/nft/getNFTs', [NFTsController::class, 'getNFTs']);
+Route::get('/nft/imageURL', [NFTsController::class, 'NFTsImage']);
+Route::get('/nft/get_nft_details', [NFTsController::class, 'getNftDetails']);
+
 
 
 

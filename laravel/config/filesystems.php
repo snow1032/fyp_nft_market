@@ -56,6 +56,12 @@ return [
             'visibility' => 'private',
             'throw' => true,
         ],
+        'NFTs' => [
+            'driver' => 'local',
+            'root' => storage_path('app/NFTs'),
+            'visibility' => 'private',
+            'throw' => true,
+        ],
 
         's3' => [
             'driver' => 's3',
