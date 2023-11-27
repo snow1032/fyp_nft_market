@@ -71,41 +71,7 @@ const Modal = ({ setShowModal }) => {
     });
   };
 
-  // async function getAccount() {
-  //   if (window.ethereum) {
-  //     console.log("detected")
 
-
-  //     try {
-  //       const account = await window.ethereum.request({
-  //         method: "eth_requestAccounts",
-
-  //       });
-  //       // console.log(account);
-  //       return account[0];
-
-
-  //     } catch (error) {
-  //       console.log("Error connecting ..")
-  //     }
-
-  //   } else {
-  //     console.log("Meta Mask not dectected")
-  //   }
-  // }
-
-  // async function makePayment() {
-  //   const paymentData = {
-  //     ether: 0.5, // Example ether value
-  //     address: "0x1B132616CFF0D152713DF0A0AD7919Abde65932e", // Example address
-  //   };
-
-  //   try {
-  //     await Transaction.startPayment(paymentData);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
 
   return (
@@ -125,12 +91,12 @@ const Modal = ({ setShowModal }) => {
 
         <div className="input__item mb-3">
           <h6>Enter Quantity, 7 available</h6>
-          <input type="number" placeholder="Enter quantity" onChange={handleChange} value={quantity} />
+          <input type="number" min="1" placeholder="Enter quantity" onChange={handleChange} value={quantity} />
         </div>
 
         <div className=" d-flex align-items-center justify-content-between">
           <p>You must bid at least</p>
-          <span className="money">{price} ETH</span>
+          <span className="money">5.89 ETH</span>
         </div>
 
         <div className=" d-flex align-items-center justify-content-between">
@@ -140,7 +106,7 @@ const Modal = ({ setShowModal }) => {
 
         <div className=" d-flex align-items-center justify-content-between">
           <p>Total Bid Amount</p>
-          <span className="money">5.89 ETH</span>
+          <span className="money">{price} ETH</span>
         </div>
 
         <button className="place__bid-btn" onClick={handleSubmit}>Place a Bid</button>
