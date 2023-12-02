@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useRef } from 'react';
 
 import { Container, Row, Col } from "reactstrap";
 import CommonSection from "../components/ui/Common-section/CommonSection";
@@ -19,6 +19,46 @@ const item = {
 };
 
 const Create = () => {
+
+  const imageFile = useRef(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const file = imageFile.current.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    console.log(formData.values);
+    // console.log(imageFile.current.files[0]);
+    fetch('http://127.0.0.1:8000/api/ipfs/upload', {
+      method: 'POST',
+      // body: imageFile.current.files[0],
+      body: formData,
+      // 👇 Set headers manually for single file upload
+      headers: {
+        // 'content-type': imageFile.type,
+        // 'content-length': `${imageFile.size}`, // 👈 Headers need to be a string
+        // accept: 'application/json',
+        accept: 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response from the API
+        console.log('Upload response:', data);
+      })
+      .catch(error => {
+        // Handle any errors that occurred during the upload
+        console.error('Error uploading file:', error);
+      });
+  };
+
+
+
+
+
+
   return (
     <>
       <CommonSection title="Create Item" />
@@ -36,7 +76,7 @@ const Create = () => {
                 <form>
                   <div className="form__input">
                     <label htmlFor="">Upload File</label>
-                    <input type="file" className="upload__input" />
+                    <input ref={imageFile} type="file" className="upload__input" />
                   </div>
 
                   <div className="form__input">
@@ -83,6 +123,7 @@ const Create = () => {
               </div>
             </Col>
           </Row>
+          <button onClick={handleSubmit} type="submit">Upload</button>
         </Container>
       </section>
     </>

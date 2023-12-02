@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::post('/ipfs/upload', [IPFSController::class, 'uploadFile']);
+   
 
     //profile
     Route::post('/profile/upload_icon', [ProfileController::class, 'uploadIcon']);
@@ -46,7 +46,7 @@ Route::middleware('auth:sanctum')->group(function(){
 //     return $request->user();
 // });
 
-
+ Route::post('/ipfs/upload', [IPFSController::class, 'uploadFile']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/login_with_addr', [AuthController::class, 'loginWithAddress']);
 Route::post('/register', [AuthController::class, 'register']);
