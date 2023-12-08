@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext, } from 'react';
 
 import { Container, Row, Col } from "reactstrap";
 import CommonSection from "../components/ui/Common-section/CommonSection";
@@ -7,6 +7,9 @@ import img from "../assets/images/img-01.jpg";
 import avatar from "../assets/images/ava-01.png";
 
 import "../styles/create-item.css";
+import { useStateContext } from "../components/Context/ContextProvider";
+
+
 
 const item = {
   id: "01",
@@ -33,23 +36,18 @@ const Create = () => {
     // console.log(imageFile.current.files[0]);
     fetch('http://127.0.0.1:8000/api/ipfs/upload', {
       method: 'POST',
-      // body: imageFile.current.files[0],
       body: formData,
-      // 👇 Set headers manually for single file upload
       headers: {
-        // 'content-type': imageFile.type,
-        // 'content-length': `${imageFile.size}`, // 👈 Headers need to be a string
-        // accept: 'application/json',
         accept: 'application/json',
       },
     })
       .then(response => response.json())
       .then(data => {
-        // Handle the response from the API
         console.log('Upload response:', data);
+        console.log(localStorage.getItem('token'));
+        // ContextProvider(StateContext().ContextProvider(data);
       })
       .catch(error => {
-        // Handle any errors that occurred during the upload
         console.error('Error uploading file:', error);
       });
   };

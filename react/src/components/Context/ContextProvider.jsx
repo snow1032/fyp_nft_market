@@ -1,37 +1,51 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const StateContext = createContext({
     currentUser: null,
     token: null,
     notification: null,
-    setUser: () => {},
-    setToken: () => {},
-    setNotification: () => {}
+    setUser: () => { },
+    setToken: () => { },
+    setNotification: () => { }
 })
 
-export const ContextProvider = ({children}) => {
-    const [user, setUser] = useState({});
+export function ContextProvider(props) {
+    // console.log('token set');
+    // console.log(props);
+    // console.log('token set');
+
+
+    const [user, setUser] = useState('');
     //const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
-    const [token, _setToken] = useState('Token');
+    const [token, _setToken] = useState('');
+    console.log('token set');
 
     const setToken = (token) => {
         _setToken(token)
+        console.log('token set');
 
-        if (token){
+        if (token) {
             localStorage.setItem('ACCESS_TOKEN', token);
-        }else{
+        } else {
             localStorage.removeItem('ACCESS_TOKEN');
+            // console.log(token);
         }
     }
+
+    useEffect(() => {
+        // Update the document title using the browser API
+        console.log('token set');
+        setToken(props.token)
+    });
 
     return (
         <StateContext.Provider value={{
             user,
             setUser,
-            setToken,
+            _setToken,
             token,
         }}>
-            {children}
+            {props}
         </StateContext.Provider>
     )
 }
