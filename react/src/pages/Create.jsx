@@ -44,7 +44,7 @@ const Create = () => {
       .then(response => response.json())
       .then(data => {
         console.log('Upload response:', data);
-        console.log(localStorage.getItem('token'));
+        console.log(localStorage.getItem('ACCESS_TOKEN'));
         // ContextProvider(StateContext().ContextProvider(data);
       })
       .catch(error => {
