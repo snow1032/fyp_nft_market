@@ -10,10 +10,11 @@ const StateContext = createContext({
 })
 
 export function ContextProvider(props) {
-    // console.log('token set');
-    // console.log(props);
-    // console.log('token set');
-    localStorage.setItem('ACCESS_TOKEN', props.token);
+
+    console.log(props);
+    const [currentUser, setCurrentUser] = useState([props]);
+ 
+    localStorage.setItem('ACCESS_TOKEN', JSON.stringify(currentUser));
   
 
     const [user, setUser] = useState('');

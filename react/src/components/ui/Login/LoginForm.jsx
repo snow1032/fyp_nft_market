@@ -23,6 +23,7 @@ export default function LoginForm(props) {
             setUser(data.user)
             setToken(data.token)
             console.log(data.token)
+
             ContextProvider(data);
 
         }).catch((error) => {
@@ -30,6 +31,10 @@ export default function LoginForm(props) {
                 alert(error.response.data.message);
             }
         })
+
+        axiosClient.get('/user').then((response) => {
+            console.log(response.data);
+        });
     }
 
     return (

@@ -108,6 +108,7 @@ class NFTsController extends Controller
         $url = Storage::url($filePath);
 
         $user = $request->user();
+        print_r($user);
         $address = $user->address;
         $tokenURL = $fileName;
         $tokenID = $this->guidv4();

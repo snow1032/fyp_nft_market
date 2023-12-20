@@ -23,18 +23,40 @@ const item = {
 
 const Create = () => {
 
+  const userTokenData = JSON.parse(localStorage.getItem('ACCESS_TOKEN'))
+  const nftData = useState([]);
+
   const imageFile = useRef(null);
+  const price = useRef(null);
+  const minimumBid = useRef(null);
+  const title = useRef(null);
+  const description = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const file = imageFile.current.files[0];
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('name', title.current.value);
+    formData.append('royalties', 0.5);
+    formData.append('price', price.current.value);
+    formData.append('media', file);
+    formData.append('description', description.current.value);
 
-    console.log(formData.values);
-    // console.log(imageFile.current.files[0]);
-    fetch('http://127.0.0.1:8000/api/ipfs/upload', {
+    // console.log(formData.values());
+
+    // nftData.push({
+    //   name: title.current.value,
+    //   royalties: 0.5,
+    //   price: price.current.value,
+    //   media: file,
+    //   // tokenID: userTokenData.token,
+    //   description: description.current.value,
+
+
+    // });
+    console.log(formData.values());
+    fetch('http://127.0.0.1:8000/api/nft/mintNFTs', {
       method: 'POST',
       body: formData,
       headers: {
@@ -43,9 +65,11 @@ const Create = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Upload response:', data);
-        console.log(localStorage.getItem('ACCESS_TOKEN'));
-        // ContextProvider(StateContext().ContextProvider(data);
+        console.log('Upload response:', data.JSON());
+        // console.log(JSON.stringify(userTokenData));
+        // console.log(userTokenData.user.address);
+
+
       })
       .catch(error => {
         console.error('Error uploading file:', error);
@@ -80,17 +104,18 @@ const Create = () => {
                   <div className="form__input">
                     <label htmlFor="">Price</label>
                     <input
+                      ref={price}
                       type="number"
                       placeholder="Enter price for one item (ETH)"
                     />
                   </div>
 
-                  <div className="form__input">
+                  {/* <div className="form__input">
                     <label htmlFor="">Minimum Bid</label>
-                    <input type="number" placeholder="Enter minimum bid" />
-                  </div>
+                    <input ref={minimumBid} type="number" placeholder="Enter minimum bid" />
+                  </div> */}
 
-                  <div className=" d-flex align-items-center gap-4">
+                  {/* <div className=" d-flex align-items-center gap-4">
                     <div className="form__input w-50">
                       <label htmlFor="">Starting Date</label>
                       <input type="date" />
@@ -100,16 +125,17 @@ const Create = () => {
                       <label htmlFor="">Expiration Date</label>
                       <input type="date" />
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="form__input">
                     <label htmlFor="">Title</label>
-                    <input type="text" placeholder="Enter title" />
+                    <input ref={title} type="text" placeholder="Enter title" />
                   </div>
 
                   <div className="form__input">
                     <label htmlFor="">Description</label>
                     <textarea
+                      ref={description}
                       name=""
                       id=""
                       rows="7"
