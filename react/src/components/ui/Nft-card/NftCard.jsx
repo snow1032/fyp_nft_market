@@ -55,7 +55,7 @@ const NftCard = (props) => {
           {showModal && <Modal setShowModal={setShowModal} />}
 
           <span className="history__link">
-            <Link to="#">View History</Link>
+            <Link to={`/market/${id}`}>View History</Link>
           </span>
         </div>
       </div>
