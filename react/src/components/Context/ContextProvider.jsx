@@ -13,10 +13,10 @@ export function ContextProvider(props) {
 
     console.log(props);
     const [currentUser, setCurrentUser] = useState([props]);
- 
-    localStorage.setItem('ACCESS_TOKEN', JSON.stringify(currentUser));
-  
 
+    localStorage.setItem('ACCESS_TOKEN', JSON.stringify(currentUser));
+   
+    
     const [user, setUser] = useState('');
     //const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
     const [token, _setToken] = useState('');

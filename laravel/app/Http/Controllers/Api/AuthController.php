@@ -67,7 +67,7 @@ class AuthController extends Controller
         $user = Auth::user();
         // print_r($user);
         $token = $user->createToken('main')->plainTextToken;
-        print_r($token);
+        // print_r($token);
         return response(compact('user', 'token'));
     }
 

@@ -53,8 +53,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     auth()->user();
 //     print_r(auth());
 //     // return auth()->user();
-// });
-// ->middleware('auth:sanctum');
+// })->middleware('auth:sanctum');
 
 Route::post('/ipfs/upload', [IPFSController::class, 'uploadFile']);
 Route::post('/login', [AuthController::class, 'login']);

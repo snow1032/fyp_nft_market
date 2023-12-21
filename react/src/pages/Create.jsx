@@ -23,7 +23,7 @@ const item = {
 
 const Create = () => {
 
-  const userTokenData = JSON.parse(localStorage.getItem('ACCESS_TOKEN'))
+  // const userTokenData = JSON.parse(localStorage.getItem('ACCESS_TOKEN'))
   const nftData = useState([]);
 
   const imageFile = useRef(null);

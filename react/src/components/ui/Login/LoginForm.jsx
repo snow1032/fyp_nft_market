@@ -20,11 +20,15 @@ export default function LoginForm(props) {
             email: emailRef.current.value,
             password: passwordRef.current.value,
         }).then(({ data }) => {
+
+      
+            console.log(data);
+            // console.log(data);
             setUser(data.user)
             setToken(data.token)
-            console.log(data.token)
+            // console.log(JSON.stringify(data))
 
-            ContextProvider(data);
+            // ContextProvider(data);
 
         }).catch((error) => {
             if (error.response) {
@@ -33,8 +37,17 @@ export default function LoginForm(props) {
         })
 
         axiosClient.get('/user').then((response) => {
-            console.log(response.data);
-        });
+            console.log("sssssssssssssssss");
+            console.log(response);
+        }).then(({ data }) => {
+
+            console.log(data.token)
+
+        }).catch((error) => {
+            if (error.response) {
+                alert(error.response.data.message);
+            }
+        })
     }
 
     return (
