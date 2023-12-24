@@ -55,25 +55,30 @@ const Create = () => {
 
 
     // });
-    console.log(formData.values());
-    fetch('http://127.0.0.1:8000/api/nft/mintNFTs', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        accept: 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Upload response:', data.JSON());
-        // console.log(JSON.stringify(userTokenData));
-        // console.log(userTokenData.user.address);
+    const accessToken = localStorage.getItem('ACCESS_TOKEN');
 
-
+    if (!accessToken) {
+      console.error('Access token is missing');
+      // Handle the missing access token scenario, e.g., redirect to login or show an error message
+    } else {
+      fetch('http://127.0.0.1:8000/api/nft/mintNFTs', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${accessToken}`
+        },
       })
-      .catch(error => {
-        console.error('Error uploading file:', error);
-      });
+        .then(response => response.json())
+        .then(data => {
+          console.log('Upload response:', data);
+          // Handle the response data as needed
+        })
+        .catch(error => {
+          console.error('Error uploading file:', error);
+          // Handle the error as needed
+        });
+    }
   };
 
 

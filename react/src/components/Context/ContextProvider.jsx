@@ -3,29 +3,26 @@ import { createContext, useContext, useState, useEffect } from "react";
 const StateContext = createContext({
     currentUser: null,
     token: null,
-    notification: null,
+    //notification: null,
     setUser: () => { },
     setToken: () => { },
-    setNotification: () => { }
+    //setNotification: () => { }
 })
 
-export function ContextProvider(props) {
+export const ContextProvider = ({children}) => {
 
-    console.log(props);
-    const [currentUser, setCurrentUser] = useState([props]);
+    // console.log(props);
+    // const [currentUser, setCurrentUser] = useState([props]);
+    // localStorage.setItem('ACCESS_TOKEN', JSON.stringify(currentUser));
 
-    localStorage.setItem('ACCESS_TOKEN', JSON.stringify(currentUser));
-   
-    
-    const [user, setUser] = useState('');
-    //const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
-    const [token, _setToken] = useState('');
+    const [user, setUser] = useState({});
+    const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
+    //const [token, _setToken] = useState('');
     console.log('token set');
+    
 
     const setToken = (token) => {
         _setToken(token)
-        console.log('token set');
-
         if (token) {
             localStorage.setItem('ACCESS_TOKEN', token);
         } else {
@@ -34,20 +31,20 @@ export function ContextProvider(props) {
         }
     }
 
-    useEffect(() => {
-        // Update the document title using the browser API
-        console.log('token set');
-        setToken(props.token)
-    });
+    // useEffect(() => {
+    //     // Update the document title using the browser API
+    //     console.log('token set');
+    //     setToken(props.token)
+    // });
 
     return (
         <StateContext.Provider value={{
             user,
             setUser,
-            _setToken,
+            setToken,
             token,
         }}>
-            {props}
+            {children}
         </StateContext.Provider>
     )
 }

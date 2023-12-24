@@ -3,7 +3,6 @@ import { Container, Row, Col, Label } from "reactstrap";
 
 import LoginForm from "../components/ui/Login/LoginForm";
 import Img from "../assets/images/beeple-illestrater.jpg";
-
 export default function Login(props){
     
 

@@ -71,20 +71,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 600);
     }
 
-    chatInput.addEventListener("input", () => {
-        // Adjust the height of the input textarea based on its content
-        chatInput.style.height = `${inputInitHeight}px`;
-        chatInput.style.height = `${chatInput.scrollHeight}px`;
-    });
+    try {
+        chatInput.addEventListener("input", () => {
+            // Adjust the height of the input textarea based on its content
+            chatInput.style.height = `${inputInitHeight}px`;
+            chatInput.style.height = `${chatInput.scrollHeight}px`;
+        });
 
-    chatInput.addEventListener("keydown", (e) => {
-        // If Enter key is pressed without Shift key and the window 
-        // width is greater than 800px, handle the chat
-        if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
-            e.preventDefault();
-            handleChat();
-        }
-    });
+        chatInput.addEventListener("keydown", (e) => {
+            // If Enter key is pressed without Shift key and the window 
+            // width is greater than 800px, handle the chat
+            if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+                e.preventDefault();
+                handleChat();
+            }
+        });
+    }catch(error){
+        
+    }
 
     sendChatBtn.addEventListener("click", handleChat);
     closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));

@@ -26,8 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
-
-
     //profile
     Route::post('/profile/upload_icon', [ProfileController::class, 'uploadIcon']);
     Route::get('/profile/icon', [ProfileController::class, 'getIcon']);
@@ -45,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    header('Content-Type: application/json');
     print_r($request->user());
     return $request->user();
 });

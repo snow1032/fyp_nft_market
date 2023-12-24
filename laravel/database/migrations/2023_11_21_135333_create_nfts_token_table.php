@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique()->not;
             $table->string('url')->unique();
-            $table->string('description')->unique();
+            $table->string('description');
 
             $table->integer('creator'); // origin creator
             $table->Integer('owner')->nullable(); 
@@ -23,7 +23,9 @@ return new class extends Migration
             
             $table->bigInteger('price');
             $table->bigInteger('royalties')->default(0);
-            
+
+            $table->string('cid')->unique();
+
             $table->foreign('creator')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('owner')->references('id')->on('users')->onDelete('cascade');
             

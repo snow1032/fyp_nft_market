@@ -23,7 +23,7 @@ class NFTsController extends Controller
     public function __construct()
     {
         self::$web3 = new Web3('http://localhost:8545');
-        self::$contractAddress = "0xa1b8f0F24fb8372eAF14b956F926487218fC8da1";
+        self::$contractAddress = "0x2673932bEDCb9BC10762034ED56312d5a68491c6";
         $abi = Storage::get('NFTs_abi.json');
         $bytecode = Storage::get('bytecode.txt');
         
@@ -43,8 +43,6 @@ class NFTsController extends Controller
         $symbol = "NFT";
         // $tokenID = 10000;
         // $tokenURL = 'http://url.com';
-        
-
 
         $abi = Storage::get('NFTs_abi.json');
         $bytecode = Storage::get('bytecode.txt');
@@ -108,10 +106,10 @@ class NFTsController extends Controller
         $url = Storage::url($filePath);
 
         $user = $request->user();
-        print_r($user);
         $address = $user->address;
         $tokenURL = $fileName;
         $tokenID = $this->guidv4();
+
         //create NFTs contract 
         $nft = new NftsToken();
         $nft->name = $request->input('name');
@@ -121,8 +119,6 @@ class NFTsController extends Controller
         $nft->price = $request->input('price');
         $nft->description = $request->input('description');
         $nft->creator = $user->id;
-
-
         
         NFTsController::$contract->at(NFTsController::$contractAddress)->send('mintUniqueTokenTo',$address, $tokenID, $tokenURL, [
             'from' => $address,
@@ -131,12 +127,12 @@ class NFTsController extends Controller
 
         ], function ($err, $result) use ($address, $tokenID, $tokenURL, $nft){
             if ($err !== null) {
+                echo "Error";
                 throw $err;
             }
             
             $nft->save();
             echo true;
-
         });
         
 
