@@ -26,7 +26,7 @@ export const ContextProvider = ({ children }) => {
         if (token) {
             localStorage.setItem('ACCESS_TOKEN', token);
      
-            // window.location.href = "/home";
+            window.location.href = "/home";
         } else {
             localStorage.removeItem('ACCESS_TOKEN');
             // console.log(token);

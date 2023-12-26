@@ -7,25 +7,27 @@ import "../../../assets/css/button.css";
 import Modal from "../Modal/Modal";
 
 const NftCard = (props) => {
-  const { title, id, currentBid, creatorImg, imgUrl, creator } = props.item;
+  // console.log(props.item);
+  // const { title, id, currentBid, creatorImg, imgUrl, creator} = props.item;
+  const { id, name, url, creator, owner, tokenID, price, royalties, description, cid } = props.item;
 
   const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="single__nft__card">
       <div className="nft__img">
-        <img src={imgUrl} alt="" className="w-100" />
+        <img src={"https://skywalker.infura-ipfs.io/ipfs/" + cid} alt="" className="w-100" />
       </div>
 
       <div className="nft__content">
         <h5 className="nft__title">
-          <Link to={`/market/${id}`}>{title}</Link>
+          <Link to={`/market/${id}`}>{name}</Link>
         </h5>
 
         <div className="creator__info-wrapper d-flex gap-3">
-          <div className="creator__img">
+          {/* <div className="creator__img">
             <img src={creatorImg} alt="" className="w-100" />
-          </div>
+          </div> */}
 
           <div className="creator__info w-100 d-flex align-items-center justify-content-between">
             <div>
@@ -35,7 +37,7 @@ const NftCard = (props) => {
 
             <div>
               <h6>Current Bid</h6>
-              <p>{currentBid} ETH</p>
+              <p>{price} ETH</p>
             </div>
           </div>
         </div>
