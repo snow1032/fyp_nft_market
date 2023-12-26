@@ -8,7 +8,11 @@ import avatar from "../assets/images/ava-01.png";
 
 import "../styles/create-item.css";
 import { useStateContext } from "../components/Context/ContextProvider";
-
+import Swal from "sweetalert";
+// import Swal from 'sweetalert2/dist/sweetalert2.js'
+// import 'sweetalert2/src/sweetalert2.scss'
+import axiosClient from "../axios-client";
+import { Link } from "react-router-dom";
 
 
 const item = {
@@ -21,8 +25,10 @@ const item = {
   currentBid: 7.89,
 };
 
-const Create = () => {
 
+
+const Create = () => {
+  // const Swal = require('sweetalert2')
   // const userTokenData = JSON.parse(localStorage.getItem('ACCESS_TOKEN'))
   const nftData = useState([]);
 
@@ -31,11 +37,25 @@ const Create = () => {
   const minimumBid = useRef(null);
   const title = useRef(null);
   const description = useRef(null);
+  const cid = useRef(null);
+
+
+  // change data to left card
+  const changeImage = useRef(null);
+  const changeTitle = useRef(null);
+  const changePrice = useRef(null);
+  const changeDescription = useRef(null);
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     const file = imageFile.current.files[0];
+    // console.log(file)
+
+    const imgformData = new FormData();
+    imgformData.append('file', file);
+
     const formData = new FormData();
     formData.append('name', title.current.value);
     formData.append('royalties', 0.5);
@@ -43,45 +63,106 @@ const Create = () => {
     formData.append('media', file);
     formData.append('description', description.current.value);
 
-    // console.log(formData.values());
+    fetch('http://127.0.0.1:8000/api/ipfs/upload', {
+      method: 'POST',
+      body: imgformData,
+      headers: {
+        accept: 'application/json',
+        // Authorization: `Bearer ${accessToken}`
+      },
+    }).then(response => response.json())
+      .then((data) => {
+        console.log(file);
+        const accessToken = localStorage.getItem('ACCESS_TOKEN');
+        formData.append('cid', data.cid);
+        if (!accessToken) {
+          console.error('Access token is missing');
+          // Handle the missing access token scenario, e.g., redirect to login or show an error message
+        } else {
+          fetch('http://127.0.0.1:8000/api/nft/mintNFTs', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              accept: 'application/json',
+              Authorization: `Bearer ${accessToken}`
+            },
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Upload response:', data);
+              if (data === 1) {
+                Swal({
+                  title: title.current.value,
+                  text: "Create NFT Success",
+                  icon: "success",
+                  dangerMode: true,
+                  timer: 1500,
+                }).then(() => { window.location.reload(); });
+              } else {
+                Swal({
+                  title: "NFT name can not duplicate",
+                  text: "You clicked the button!",
+                  icon: "error",
 
-    // nftData.push({
-    //   name: title.current.value,
-    //   royalties: 0.5,
-    //   price: price.current.value,
-    //   media: file,
-    //   // tokenID: userTokenData.token,
-    //   description: description.current.value,
+                })
+                // .then(() => { window.location.reload(); });
 
+              }
+              // Handle the response data as needed
+            })
+            .catch(error => {
+              console.error('Error uploading file:', error);
+              // Handle the error as needed
+            });
+        }
 
-    // });
-    const accessToken = localStorage.getItem('ACCESS_TOKEN');
-
-    if (!accessToken) {
-      console.error('Access token is missing');
-      // Handle the missing access token scenario, e.g., redirect to login or show an error message
-    } else {
-      fetch('http://127.0.0.1:8000/api/nft/mintNFTs', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${accessToken}`
-        },
       })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Upload response:', data);
-          // Handle the response data as needed
-        })
-        .catch(error => {
-          console.error('Error uploading file:', error);
-          // Handle the error as needed
-        });
-    }
+      .catch(error => console.error('Error uploading file:', error));
+
+
   };
 
 
+
+  const handleChangeImage = (e) => {
+    const file = e.target.files[0];
+    const getBase64 = file => {
+      return new Promise(resolve => {
+        let fileInfo;
+        let baseURL = "";
+        // Make new FileReader
+        let reader = new FileReader();
+
+        // Convert the file to base64 text
+        reader.readAsDataURL(file);
+
+        // on reader load somthing...
+        reader.onload = () => {
+          // Make a fileInfo Object
+          // console.log("Called", reader);
+          baseURL = reader.result;
+          // console.log(baseURL);
+          resolve(baseURL);
+        };
+        // console.log(fileInfo);
+      });
+    };
+    getBase64(file).then(result => {
+      changeImage.current.src = result;
+    });
+
+
+
+    console.log(changeImage);
+  }
+
+  const handleChangeTitle = (e) => {
+    changeTitle.current.innerHTML = title.current.value;
+  }
+
+  const handleChangePrice = (e) => {
+    changePrice.current.innerHTML = price.current.value;
+  }
 
 
 
@@ -95,7 +176,40 @@ const Create = () => {
           <Row>
             <Col lg="3" md="4" sm="6">
               <h5 className="mb-4 text-light">Preview Item</h5>
-              <NftCard item={item} />
+              {/* <NftCard item={item} /> */}
+              {/* test */}
+              <div className="single__nft__card">
+                <div className="nft__img">
+                  <img ref={changeImage} src={img} alt="" className="w-100" />
+                </div>
+
+                <div className="nft__content">
+                  <h5 className="nft__title">
+                    <Link ref={changeTitle}></Link>
+                  </h5>
+
+                  <div className="creator__info-wrapper d-flex gap-3">
+                  
+
+                    <div className="creator__info w-100 d-flex align-items-center justify-content-between">
+                      <div>
+                        <h6>Created By</h6>
+                        <p>{localStorage.getItem('UserName')}</p>
+                      </div>
+
+                      <div>
+                        <h6>Current Bid</h6>
+                        <p ref={changePrice}> ETH</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                {/* </div> */}
+              </div>
+              {/* test */}
+
+
             </Col>
 
             <Col lg="9" md="8" sm="6">
@@ -103,7 +217,7 @@ const Create = () => {
                 <form>
                   <div className="form__input">
                     <label htmlFor="">Upload File</label>
-                    <input ref={imageFile} type="file" className="upload__input" />
+                    <input ref={imageFile} type="file" className="upload__input" onChange={handleChangeImage} />
                   </div>
 
                   <div className="form__input">
@@ -112,6 +226,7 @@ const Create = () => {
                       ref={price}
                       type="number"
                       placeholder="Enter price for one item (ETH)"
+                      onChange={handleChangePrice}
                     />
                   </div>
 
@@ -134,7 +249,7 @@ const Create = () => {
 
                   <div className="form__input">
                     <label htmlFor="">Title</label>
-                    <input ref={title} type="text" placeholder="Enter title" />
+                    <input ref={title} type="text" placeholder="Enter title" onChange={handleChangeTitle} />
                   </div>
 
                   <div className="form__input">
@@ -154,7 +269,7 @@ const Create = () => {
           </Row>
           <button onClick={handleSubmit} type="submit">Upload</button>
         </Container>
-      </section>
+      </section >
     </>
   );
 };

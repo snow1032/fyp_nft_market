@@ -4,6 +4,7 @@ import "./login-form.css";
 import axiosClient from "../../../axios-client";
 import { useStateContext } from "../../Context/ContextProvider";
 import { ContextProvider } from "../../Context/ContextProvider";
+import { Link } from "react-router-dom";
 
 export default function LoginForm(props) {
     const {setUser, setToken} = useStateContext()
@@ -20,35 +21,41 @@ export default function LoginForm(props) {
             email: emailRef.current.value,
             password: passwordRef.current.value,
         }).then(({ data }) => {
-            console.log(data.token);
+
+      
             // console.log(data);
-            console.log(setToken)
+            // console.log(data);
+            // console.log(setToken)
+            // console.log(data.user.name)
+            localStorage.setItem('UserName', data.user.name)
+            // console.log(localStorage.getItem('UserName'))
             setUser(data.user)
             setToken(data.token)
             // console.log(JSON.stringify(data))
-            // ContextProvider(data);
+
+            ContextProvider(data);
             
+
         }).catch((error) => {
             if (error.response) {
                 alert(error.response.data.message);
             }
         }).then(()=>{
             
-            axiosClient.get('/user').then((response) => {
-                console.log("sssssssssssssssss");
-                console.log(response);
-            }).then(({ data }) => {
+            // axiosClient.get('/user').then((response) => {
+            //     // console.log("sssssssssssssssss");
+            //     // console.log(response);
+            // }).then(({ data }) => {
     
-                console.log(data.token)
+            //     console.log(data.token)
     
-            }).catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
+            // }).catch((error) => {
+            //     if (error.response) {
+            //         alert(error.response.data.message);
+            //     }
+            // })
         })
 
-        
     }
 
     return (

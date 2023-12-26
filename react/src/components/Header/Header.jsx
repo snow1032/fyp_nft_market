@@ -38,7 +38,13 @@ const Header = () => {
   const [walletAddress, setWalletAddress] = useState(null)
   const [userBalance, setUserBalance] = useState(null)
 
+  const [userName, setUserName] = useState(null)
+
   useEffect(() => {
+
+    // setUserName(localStorage.getItem('ACCESS_TOKEN').user.name)
+    // console.log(localStorage.getItem('ACCESS_TOKEN'))
+
     window.addEventListener("scroll", () => {
       if (
         document.body.scrollTop > 80 ||
@@ -123,7 +129,15 @@ const Header = () => {
                       navClass.isActive ? "active" : ""
                     }
                   >
+
+
+                    {/* {
+                      item.display == "Login" && localStorage.getItem('ACCESS_TOKEN') != null ? "" : item.display
+                      // item.display
+                    } */}
+
                     {item.display}
+
                   </NavLink>
                 </li>
               ))}
@@ -144,7 +158,20 @@ const Header = () => {
               <i class="ri-menu-line" onClick={toggleMenu}></i>
             </span>
           </div>
+
+          <div class="dropdown nav__right">
+            <button class="btn d-flex gap-2 align-items-center iconButton">{localStorage.getItem("ACCESS_TOKEN")}</button>
+            <div class="dropdown-content">
+              <a class="dropdown-item" href="#"> Home </a>
+              <a class="dropdown-item" href="#">Contact </a>
+              <a class="dropdown-item" href="#"> Notifications </a>
+              <a class="dropdown-item" href="#"> Setting </a>
+            </div>
+          </div>
         </div>
+
+
+
       </Container>
       <h1>ETH: {userBalance}</h1>
     </header>

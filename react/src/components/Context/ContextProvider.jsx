@@ -9,7 +9,7 @@ const StateContext = createContext({
     //setNotification: () => { }
 })
 
-export const ContextProvider = ({children}) => {
+export const ContextProvider = ({ children }) => {
 
     // console.log(props);
     // const [currentUser, setCurrentUser] = useState([props]);
@@ -19,12 +19,14 @@ export const ContextProvider = ({children}) => {
     const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
     //const [token, _setToken] = useState('');
     console.log('token set');
-    
+
 
     const setToken = (token) => {
         _setToken(token)
         if (token) {
             localStorage.setItem('ACCESS_TOKEN', token);
+     
+            // window.location.href = "/home";
         } else {
             localStorage.removeItem('ACCESS_TOKEN');
             // console.log(token);

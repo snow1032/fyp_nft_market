@@ -23,12 +23,14 @@ class NFTsController extends Controller
     public function __construct()
     {
         self::$web3 = new Web3('http://localhost:8545');
-        self::$contractAddress = "0x2673932bEDCb9BC10762034ED56312d5a68491c6";
+        self::$contractAddress = "0x19c8258bCe1E2045BBb0615bd26Fb2C7E402B236";
         $abi = Storage::get('NFTs_abi.json');
+        // print_r($abi);
         $bytecode = Storage::get('bytecode.txt');
         
         // Fix the typo here, change $web3 to self::$web3
         self::$contract = new Contract(self::$web3->provider, $abi);
+      
     }
 
     public function createContract(Request $request){
@@ -92,6 +94,7 @@ class NFTsController extends Controller
         header('Content-Type: application/json');
         $request->validate([
             'name' => 'required|string',
+            'cid' => 'required|string',
             'media' => 'required|image|mimes:jpeg,png,jpg,gif|max:102400',
             'royalties' => 'required|between:0,99.99',
             'price' => 'required|numeric',
@@ -106,6 +109,7 @@ class NFTsController extends Controller
         $url = Storage::url($filePath);
 
         $user = $request->user();
+        // print_r($user);
         $address = $user->address;
         $tokenURL = $fileName;
         $tokenID = $this->guidv4();
@@ -114,6 +118,7 @@ class NFTsController extends Controller
         $nft = new NftsToken();
         $nft->name = $request->input('name');
         $nft->tokenID = $tokenID;
+        $nft->cid = $request->input('cid');
         $nft->royalties = 0;
         $nft->url = $tokenURL;
         $nft->price = $request->input('price');
@@ -127,7 +132,7 @@ class NFTsController extends Controller
 
         ], function ($err, $result) use ($address, $tokenID, $tokenURL, $nft){
             if ($err !== null) {
-                echo "Error";
+                // print_r($err);
                 throw $err;
             }
             
@@ -144,6 +149,7 @@ class NFTsController extends Controller
 
         if($amount != null){
             $nfts = NFTsToken::take($amount)->get();
+            print_r($nfts);
         }else{
             $nfts = NFTsToken::all();
         }
