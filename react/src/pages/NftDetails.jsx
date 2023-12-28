@@ -1,9 +1,10 @@
-import React from "react";
+import { useState, useEffect } from 'react';
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 import { NFT__DATA } from "../assets/data/data";
+import { NFT__DATA2 } from "../assets/data/data";
 
 import LiveAuction from "../components/ui/Live-auction/LiveAuction";
 
@@ -13,14 +14,37 @@ import { Link } from "react-router-dom";
 
 const NftDetails = () => {
   const { id } = useParams();
-
+  const [nftData, setNftData] = useState([]);
   const singleNft = NFT__DATA.find((item) => item.id === id);
+
+  // const singleNft = useState(NFT__DATA2.then((data) => { data.map((item) => { if (item.id == id) { return data; } }) }));
+
+
+
+
+
+  useEffect(() => {
+    NFT__DATA2.then((data) => { setNftData(...nftData, data) });
+
+    console.log(nftData);
+    const test = nftData.map((item) => {
+      if (item.id == id) {
+        console.log(item);
+        return item;
+      }
+
+    })
+
+    console.log(test);
+  }, []);
+
 
   return (
     <>
-      <CommonSection title={singleNft.title} />
 
-      <section>
+      {/* <CommonSection title={nftData.name} /> */}
+
+      {/* <section>
         <Container>
           <Row>
             <Col lg="6" md="6" sm="6">
@@ -75,7 +99,7 @@ const NftDetails = () => {
             </Col>
           </Row>
         </Container>
-      </section>
+      </section> */}
 
       <LiveAuction />
     </>

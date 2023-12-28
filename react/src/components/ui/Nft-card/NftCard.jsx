@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./nft-card.css";
 import "../../../assets/css/button.css";
 
+
 import Modal from "../Modal/Modal";
 
 const NftCard = (props) => {
@@ -56,10 +57,10 @@ const NftCard = (props) => {
 
           {showModal && <Modal setShowModal={setShowModal} />}
 
-          <span className="history__link">
-            <Link to={`/market/${id}`}>View History</Link>
-          </span>
-        </div>
+            <span className="history__link">
+              <Link to={`/market/${id}`}>View History</Link>
+            </span>
+          </div>
       </div>
     </div>
   );

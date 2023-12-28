@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState, useEffect } from 'react';
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
 import NftCard from "../components/ui/Nft-card/NftCard";
 
 import { NFT__DATA } from "../assets/data/data";
+import { NFT__DATA2 } from "../assets/data/data";
 
 import { Container, Row, Col } from "reactstrap";
 
@@ -12,6 +13,9 @@ import "../styles/market.css";
 
 const Market = () => {
   const [data, setData] = useState(NFT__DATA);
+
+  const [nftData, setNftData] = useState([]);
+;
 
   const handleCategory = () => {};
 
@@ -42,7 +46,15 @@ const Market = () => {
 
       setData(filterData);
     }
+
+ 
   };
+
+  useEffect(() => {
+    NFT__DATA2.then((data) => { setNftData(...nftData, data) });
+
+
+  }, [])
 
   return (
     <>
@@ -51,7 +63,7 @@ const Market = () => {
       <section>
         <Container>
           <Row>
-            <Col lg="12" className="mb-5">
+            {/* <Col lg="12" className="mb-5">
               <div className="market__product__filter d-flex align-items-center justify-content-between">
                 <div className="filter__left d-flex align-items-center gap-5">
                   <div className="all__category__filter">
@@ -83,9 +95,9 @@ const Market = () => {
                   </select>
                 </div>
               </div>
-            </Col>
+            </Col> */}
 
-            {data?.map((item) => (
+            {nftData?.map((item) => (
               <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
                 <NftCard item={item} />
               </Col>

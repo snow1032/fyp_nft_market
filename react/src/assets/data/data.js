@@ -107,6 +107,16 @@ export const NFT__DATA = [
   },
 ];
 
+
+export const NFT__DATA2 = fetch('http://127.0.0.1:8000/api/nft/getNFTs')
+  .then((res) => res.json())
+  .then((data) => {
+
+    return data
+
+  });
+
+
 export const SELLER__DATA = [
   {
     id: "01",

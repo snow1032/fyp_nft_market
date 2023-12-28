@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import NftCard from "../Nft-card/NftCard";
 import { NFT__DATA } from "../../../assets/data/data.js";
+import { NFT__DATA2 } from "../../../assets/data/data.js";
 
 import "./live-auction.css";
 
@@ -17,18 +18,18 @@ const LiveAuction = () => {
   const test = [];
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/nft/getNFTs')
-      .then((res) => res.json())
-      .then((data) => {
+    // fetch('http://127.0.0.1:8000/api/nft/getNFTs')
+    //   .then((res) => res.json())
+    //   .then((data) => {
 
-        setNftData(...nftData, data)
+    //     setNftData(...nftData, data)
 
-      });
+    //   });
 
-
-    nftData.map((item) => {
-      console.log(item);
-    })
+   NFT__DATA2.then((data) => { setNftData(...nftData, data) });
+    // nftData.map((item) => {
+    //   console.log(item);
+    // })
   }, []);
 
 
@@ -61,6 +62,8 @@ const LiveAuction = () => {
 
             </Col>
           ))}
+          {/* {NFT__DATA2.then.s} */}
+     
         </Row>
       </Container>
     </section>
