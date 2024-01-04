@@ -15,9 +15,9 @@ const Home = () => {
    
       <HeroSection />
       <LiveAuction />
-      <SellerSection />
+      {/* <SellerSection />
       <Trending />
-      <StepSection />
+      <StepSection /> */}
     </>
   );
 };

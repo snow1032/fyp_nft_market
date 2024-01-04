@@ -3,6 +3,7 @@ import "./header.css";
 import { Container } from "reactstrap";
 import { NavLink, Link } from "react-router-dom";
 import { ethers } from 'ethers';
+import Swal from "sweetalert";
 
 
 
@@ -105,6 +106,30 @@ const Header = () => {
   }
 
 
+  const handleLogout = () => {
+    const accessToken = localStorage.getItem('ACCESS_TOKEN');
+
+    fetch('http://127.0.0.1:8000/api/logout', {
+      method: 'POST',
+      // body: imgformData,
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${accessToken}`
+      },
+    }).then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        Swal({
+          title: localStorage.getItem('UserName'),
+          text: "Logout",
+          icon: "success",
+          dangerMode: true,
+          timer: 1500,
+        }).then(() => { window.location.reload(); });
+      });
+        localStorage.removeItem('ACCESS_TOKEN');
+       
+  }
 
   return (
     <header className="header" ref={headerRef}>
@@ -162,7 +187,7 @@ const Header = () => {
           <div class="dropdown nav__right">
             <button class="btn d-flex gap-2 align-items-center iconButton">{localStorage.getItem("ACCESS_TOKEN")}</button>
             <div class="dropdown-content">
-              <a class="dropdown-item" href="#"> Home </a>
+              <a class="dropdown-item" href="#" onClick={handleLogout}> Logout </a>
               <a class="dropdown-item" href="#">Contact </a>
               <a class="dropdown-item" href="#"> Notifications </a>
               <a class="dropdown-item" href="#"> Setting </a>

@@ -15,7 +15,7 @@ const startPayment = async ({ setError, setTxs, ether, address }) => {
     // }
     // await window.ethereum.send("eth_requestAccounts");
     await window.ethereum.request({ method: "eth_requestAccounts" });
-   
+
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -27,7 +27,7 @@ const startPayment = async ({ setError, setTxs, ether, address }) => {
 
       // value: ethers.utils.formatEther(ether)
       value: ethers.utils.parseEther(ether)
-    },console.log("test"));
+    }, console.log("test"));
 
 
     console.log("test")
@@ -40,7 +40,8 @@ const startPayment = async ({ setError, setTxs, ether, address }) => {
   }
 }
 
-const Modal = ({ setShowModal }) => {
+const Modal = ({ setShowModal, ethPrice }) => {
+  // console.log(setEth);
 
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('0.0');
@@ -48,7 +49,7 @@ const Modal = ({ setShowModal }) => {
 
   const handleChange = event => {
     setQuantity(event.target.value);
-    setPrice(event.target.value * 5.89);
+    setPrice(event.target.value * ethPrice);
     console.log('value is:', event.target.value);
   };
 
@@ -82,7 +83,7 @@ const Modal = ({ setShowModal }) => {
         </span>
         <h6 className="text-center text-light">Place a Bid</h6>
         <p className="text-center text-light">
-          You must bid at least <span className="money">5.89 ETH</span>
+          You must bid at least <span className="money">{ethPrice} ETH</span>
         </p>
 
         <div className="input__item mb-4">
@@ -96,7 +97,7 @@ const Modal = ({ setShowModal }) => {
 
         <div className=" d-flex align-items-center justify-content-between">
           <p>You must bid at least</p>
-          <span className="money">5.89 ETH</span>
+          <span className="money">{ethPrice} ETH</span>
         </div>
 
         <div className=" d-flex align-items-center justify-content-between">

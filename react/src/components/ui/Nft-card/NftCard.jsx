@@ -18,6 +18,8 @@ const NftCard = (props) => {
     <div className="single__nft__card">
       <div className="nft__img">
         <img src={"https://skywalker.infura-ipfs.io/ipfs/" + cid} alt="" className="w-100" />
+        {/* <img src={"https://ipfs.io/ipfs/" + cid} alt="" className="w-100" /> */}
+     
       </div>
 
       <div className="nft__content">
@@ -55,7 +57,7 @@ const NftCard = (props) => {
             <i class="ri-shopping-bag-line"></i> Place Bid
           </button>
 
-          {showModal && <Modal setShowModal={setShowModal} />}
+          {showModal && <Modal setShowModal={setShowModal} ethPrice={price} />}
 
             <span className="history__link">
               <Link to={`/market/${id}`}>View History</Link>

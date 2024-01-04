@@ -3,6 +3,7 @@ import Routers from "../../routes/Routers";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Login from "../../pages/Login";
+import Home from "../../pages/Home";
 
 import { useLocation, Navigate } from 'react-router-dom';
 import { useStateContext } from "../Context/ContextProvider";
@@ -12,9 +13,9 @@ const Layout = () => {
   const {user, token} = useStateContext();
   const location = useLocation();
 
-  if(!token){
-    return <Login />
-  }
+  // if(!token){
+  //   return <Home />
+  // }
 
   return (
     <div>

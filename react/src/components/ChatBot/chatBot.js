@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sendChatBtn = document.querySelector(".chat-input span");
 
     let userMessage = null; // Variable to store user's message
-    const API_KEY = "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"; // Paste your API key here
+    const API_KEY = "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"; // Paste your API key here
     // const API_KEY = "94a905c0-57d2-488d-89d4-e7fc0fe77325"; // Paste your API key here
     const inputInitHeight = chatInput ? chatInput.scrollHeight : 1000;
 
@@ -43,8 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
             messageElement.textContent = data.choices[0].message.content.trim();
             console.log(data);
+            // console.log(data.choices[0].message.content.trim());
         }).catch((error) => {
             console.log(error);
+
             messageElement.classList.add("error");
             messageElement.textContent = "Oops! Something went wrong. Please try again.";
         }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
