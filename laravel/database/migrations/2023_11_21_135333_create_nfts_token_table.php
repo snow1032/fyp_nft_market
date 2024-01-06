@@ -25,7 +25,7 @@ return new class extends Migration
             $table->bigInteger('royalties')->default(0);
 
             $table->string('cid')->unique();
-
+            $table->string('cidV1')->unique();
             $table->foreign('creator')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('owner')->references('id')->on('users')->onDelete('cascade');
             

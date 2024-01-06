@@ -64,11 +64,12 @@ class IPFSController extends Controller
     {
         $file = $request->file('file');
         $response = $this->ipfs->add(file_get_contents($file));
-        
-        if($response){
+
+        // $str = $this->ipfs::cat($response);
+
+        if ($response) {
             return response()->json(['cid' => $response]);
         }
         return response()->json(['error' => 'Failed to upload file'], 500);
     }
-
 }

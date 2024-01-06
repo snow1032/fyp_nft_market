@@ -23,7 +23,7 @@ class NFTsController extends Controller
     public function __construct()
     {
         self::$web3 = new Web3('http://localhost:8545');
-        self::$contractAddress = "0x97A154fA6F9A87812CEbB82836CC9c9bC7f63E1F";
+        self::$contractAddress = "0x763e3Ab187F023931D00ec0E47Ae74728bc8cA75";
         $abi = Storage::get('NFTs_abi.json');
         // print_r($abi);
         $bytecode = Storage::get('bytecode.txt');
@@ -95,6 +95,7 @@ class NFTsController extends Controller
         $request->validate([
             'name' => 'required|string',
             'cid' => 'required|string',
+            'cidV1' => 'required|string', // 'cidV1' => 'required|string
             'media' => 'required|image|mimes:jpeg,png,jpg,gif|max:102400',
             'royalties' => 'required|between:0,99.99',
             'price' => 'required|numeric',
@@ -119,6 +120,7 @@ class NFTsController extends Controller
         $nft->name = $request->input('name');
         $nft->tokenID = $tokenID;
         $nft->cid = $request->input('cid');
+        $nft->cidV1 = $request->input('cidV1');
         $nft->royalties = 0;
         $nft->url = $tokenURL;
         $nft->price = $request->input('price');

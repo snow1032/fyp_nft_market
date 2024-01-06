@@ -10,14 +10,14 @@ import Modal from "../Modal/Modal";
 const NftCard = (props) => {
   // console.log(props.item);
   // const { title, id, currentBid, creatorImg, imgUrl, creator} = props.item;
-  const { id, name, url, creator, owner, tokenID, price, royalties, description, cid } = props.item;
+  const { id, name, url, creator, owner, tokenID, price, royalties, description, cid ,cidV1} = props.item;
 
   const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="single__nft__card">
       <div className="nft__img">
-        <img src={"https://skywalker.infura-ipfs.io/ipfs/" + cid} alt="" className="w-100" />
+        <img src={"http://"+cidV1+".ipfs.localhost:8080/?filename=" + cid} alt="" className="w-100" />
         {/* <img src={"https://ipfs.io/ipfs/" + cid} alt="" className="w-100" /> */}
      
       </div>

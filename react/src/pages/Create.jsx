@@ -13,6 +13,7 @@ import Swal from "sweetalert";
 // import 'sweetalert2/src/sweetalert2.scss'
 import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
+import { CID } from "multiformats";
 
 
 const item = {
@@ -72,9 +73,13 @@ const Create = () => {
       },
     }).then(response => response.json())
       .then((data) => {
-        console.log(file);
+        console.log(data);
         const accessToken = localStorage.getItem('ACCESS_TOKEN');
+        const v0 = CID.parse(data.cid)
+        // console.log(v0.toV1().toString())
+
         formData.append('cid', data.cid);
+        formData.append('cidV1', v0.toV1().toString());
         if (!accessToken) {
           console.error('Access token is missing');
           // Handle the missing access token scenario, e.g., redirect to login or show an error message
@@ -189,7 +194,7 @@ const Create = () => {
                   </h5>
 
                   <div className="creator__info-wrapper d-flex gap-3">
-                  
+
 
                     <div className="creator__info w-100 d-flex align-items-center justify-content-between">
                       <div>
