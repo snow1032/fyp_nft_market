@@ -9,9 +9,9 @@ import { Link } from "react-router-dom";
 
 export default function ChatBot(props) {
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(document.querySelector("chatbox"))
-  },[])
+  }, [])
 
   return (
     <>
@@ -30,12 +30,28 @@ export default function ChatBot(props) {
             <span className="material-symbols-outlined">smart_toy</span>
             <p>Hi there 👋How can I help you today?</p>
           </li>
+
+
+          <li className="bulletPoint"><button className="btn-grad">What is NFT</button></li>
+          <li className="bulletPoint"><button className="btn-grad">Dolores quaerat illo totam porro</button></li>
+          <li className="bulletPoint"><button className="btn-grad">Quidem aliquid perferendis voluptates</button></li>
+          <li className="bulletPoint"><button className="btn-grad">Fuga</button></li>
+          {/* 
+          <div class="module">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero pariatur corporis quaerat voluptatum eos tempora temporibus nisi voluptates sed, exercitationem sequi dolore culpa incidunt accusamus, quasi unde reprehenderit ea molestias.
+          </div> */}
+
+
         </ul>
+
+
+
+
         <div className="chat-input">
           <textarea placeholder="Enter a message..." spellcheck="false" required></textarea>
           <span id="send-btn" className="material-symbols-rounded">send</span>
         </div>
-      </div> 
+      </div>
     </>
   );
 

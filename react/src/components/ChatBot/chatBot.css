@@ -12,6 +12,55 @@ body {
     background: #E3F2FD;
 }
 
+.bulletPoint::marker {
+    /* content: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='24' width='24'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' fill='none' stroke='hotpink' stroke-width='3'/></svg>"); */
+    content: "🦄";
+}
+
+.bulletPoint {
+    padding-inline-start: 1ch;
+    margin-left: 20px;
+    /* border: 1px solid black; */
+    margin-bottom: 5px;
+    /* background: linear-gradient(-45deg, #e250e5, #4b50e6, #e250e5, #4b50e6); */
+    /* border-image: linear-gradient( #e250e5, #4b50e6, #e250e5, #4b50e6) 30; */
+    /* border-width: 3px; */
+    /* border: 1px solid; */
+    /* border-style: solid; */
+}
+
+.module-border-wra {
+    /* border-image: linear-gradient(#f6b73c, #4d9f0c) 30;
+    border-width: 4px;
+    border-style: solid; */
+}
+
+.btn-grad {
+    background-image: linear-gradient(to right, #fc00ff 0%, #00dbde 51%, #fc00ff 100%);
+    /* margin: 10px; */
+    /* padding: 15px 45px; */
+    text-align: center;
+    /* text-transform: uppercase; */
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+}
+
+.btn-grad:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+ul,
+ol {
+    max-width: 35ch;
+}
+
 .chatbot-toggler {
     position: fixed;
     bottom: 30px;
