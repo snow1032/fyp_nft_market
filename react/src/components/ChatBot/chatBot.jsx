@@ -5,13 +5,27 @@ import "./chatBot.css";
 import "./chatBot.js";
 
 import { Link } from "react-router-dom";
+// import { handleItemClick } from "./chatBot.js";
 
 
 export default function ChatBot(props) {
 
-  useEffect(() => {
-    console.log(document.querySelector("chatbox"))
-  }, [])
+
+  const bulletPorints = ["What is NFT", "Dolores quaerat illo totam porro", "Quidem aliquid perferendis voluptates", "Fuga"];
+
+  const listItems = bulletPorints.map((point) => <li className="bulletPoint" ><button className="btn-grad">{point}</button></li>);
+  // const listItems = [
+  //   <li className="bulletPoint" key="item1">
+  //     <button className="btn-grad">Asd</button>
+  //   </li>,
+  //   <li className="bulletPoint" key="item2">
+  //     <button className="btn-grad">sssss</button>
+  //   </li>
+  // ];
+
+    useEffect(() => {
+      console.log(document.querySelector("chatbox"))
+    }, [])
 
   return (
     <>
@@ -32,10 +46,10 @@ export default function ChatBot(props) {
           </li>
 
 
-          <li className="bulletPoint"><button className="btn-grad">What is NFT</button></li>
-          <li className="bulletPoint"><button className="btn-grad">Dolores quaerat illo totam porro</button></li>
+          {listItems}
+          {/* <li className="bulletPoint"><button className="btn-grad">Dolores quaerat illo totam porro</button></li>
           <li className="bulletPoint"><button className="btn-grad">Quidem aliquid perferendis voluptates</button></li>
-          <li className="bulletPoint"><button className="btn-grad">Fuga</button></li>
+          <li className="bulletPoint"><button className="btn-grad">Fuga</button></li> */}
           {/* 
           <div class="module">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero pariatur corporis quaerat voluptatum eos tempora temporibus nisi voluptates sed, exercitationem sequi dolore culpa incidunt accusamus, quasi unde reprehenderit ea molestias.

@@ -1,10 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+
+
     const chatbotToggler = document.querySelector(".chatbot-toggler");
     const closeBtn = document.querySelector(".close-btn");
     const chatbox = document.querySelector(".chatbox");
     const chatInput = document.querySelector(".chat-input textarea");
     const sendChatBtn = document.querySelector(".chat-input span");
+    const bulletPoint = document.querySelector(".chatbox .bulletPoint button");
+    const listItems = document.querySelectorAll(".chatbox .bulletPoint button");
+
+    listItems.forEach((li) => {
+        li.addEventListener("click", () => {
+          const value = li.textContent.trim();
+          console.log(value);
+        });
+      });
 
     let userMessage = null; // Variable to store user's message
     const API_KEY = "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"; // Paste your API key here
@@ -88,12 +99,38 @@ document.addEventListener("DOMContentLoaded", () => {
                 handleChat();
             }
         });
-    }catch(error){
-        
+    } catch (error) {
+
     }
+
+
+    const handleItemClick = () => {
+        console.log("clicked");
+
+        // if (bulletPoint) {
+        //     const value = bulletPoint;
+        //     console.log(value);
+        // } else {
+        //     console.log("Element not found");
+        // }
+
+
+        // bulletPoint.forEach((li) => {
+        //     const value = li.textContent.trim();
+        //     console.log(value);
+        //   });
+    }
+
+
+
+
 
     sendChatBtn.addEventListener("click", handleChat);
     closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
     chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
+    bulletPoint.addEventListener("click", handleItemClick);
+
+
+
 
 })
