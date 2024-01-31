@@ -9,6 +9,7 @@ use Web3\Contract;
 use Web3\Utils;
 use Storage;
 use File;
+use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\NftsToken;
 use Illuminate\Http\Response;
@@ -23,7 +24,7 @@ class NFTsController extends Controller
     public function __construct()
     {
         self::$web3 = new Web3('http://localhost:8545');
-        self::$contractAddress = "0x763e3Ab187F023931D00ec0E47Ae74728bc8cA75";
+        self::$contractAddress = "0x78Cb2A9459E80B645cE909dd8aDB8c0e6EF3B7cE";
         $abi = Storage::get('NFTs_abi.json');
         // print_r($abi);
         $bytecode = Storage::get('bytecode.txt');
@@ -136,10 +137,10 @@ class NFTsController extends Controller
             if ($err !== null) {
                 // print_r($err);
                 throw $err;
+            }else{
+                $nft->save();
+                echo true;
             }
-            
-            $nft->save();
-            echo true;
         });
         
 
@@ -175,6 +176,52 @@ class NFTsController extends Controller
         return response()->json($nft, 200);
     }
 
+
+
+    public function buyNFTs(Request $request){
+        //connect eth
+        $web3 = new Web3('http://localhost:8545');
+        $eth = $web3->eth;
+    
+        $user = $request->user();
+        $id = $request->input('id');
+        $nft = NftsToken::find($id);
+        $nft_price = Utils::toWei((string) $nft->price, 'ether');
+    
+        $gasLimit = 21000;
+    
+        $eth->getBalance($user->address, function ($err, $resp) use ($nft, $nft_price, $user, $eth, $gasLimit, $id) {
+            if ($err !== null) {
+                echo $err->getMessage();
+            } else {
+                if ($this->wei2eth($resp) > $this->wei2eth($nft_price)) {
+                    $buyerAddr = $user->address; // buyer
+                    $sellerAddr = User::find($nft->creator)->address; // seller
+    
+                    // trading
+                    $eth->sendTransaction([
+                        'from' => $buyerAddr,
+                        'to' => $sellerAddr,
+                        'value' => '0x' . $this->bcdechex($nft_price),
+                        'gas' => '0x' . dechex($gasLimit),
+                    ], function ($err, $transaction) use ($eth, $buyerAddr, $sellerAddr, $nft, $user) {
+                        if ($err !== null) {
+                            echo 'Error: ' . $err->getMessage();
+                            return;
+                        }
+                        echo 'Tx hash: ' . $transaction . PHP_EOL;
+                        $nft->owner = $user->id;
+                        echo true;
+                    });
+                } else {
+                    echo false;
+                }
+            }
+        });
+    }
+
+
+
     private function guidv4($data = null) {
         $data = $data ?? random_bytes(16);
         assert(strlen($data) == 16);
@@ -182,6 +229,18 @@ class NFTsController extends Controller
         $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
         return vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex($data), 4));
     }
+    private function wei2eth($wei){
+        return bcdiv($wei, "1000000000000000000", 18);
+    }
 
+    private function bcdechex($dec) {
+        $hex = '';
+        do {    
+            $last = bcmod($dec, 16);
+            $hex = dechex($last).$hex;
+            $dec = bcdiv(bcsub($dec, $last), 16);
+        } while($dec>0);
+        return $hex;
+    }
     
 }
