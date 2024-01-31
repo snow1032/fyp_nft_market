@@ -15,11 +15,11 @@ const Market = () => {
   const [data, setData] = useState(NFT__DATA);
 
   const [nftData, setNftData] = useState([]);
-;
+  ;
 
-  const handleCategory = () => {};
+  const handleCategory = () => { };
 
-  const handleItems = () => {};
+  const handleItems = () => { };
 
   // ====== SORTING DATA BY HIGH, MID, LOW RATE =========
   const handleSort = (e) => {
@@ -47,13 +47,13 @@ const Market = () => {
       setData(filterData);
     }
 
- 
+
   };
 
   useEffect(() => {
     NFT__DATA2.then((data) => { setNftData(...nftData, data) });
 
-
+   
   }, [])
 
   return (

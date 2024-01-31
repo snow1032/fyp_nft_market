@@ -7,15 +7,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatbox = document.querySelector(".chatbox");
     const chatInput = document.querySelector(".chat-input textarea");
     const sendChatBtn = document.querySelector(".chat-input span");
-    const bulletPoint = document.querySelector(".chatbox .bulletPoint button");
+    const bulletPoints = document.querySelectorAll(".chatbox .bulletPoint button");
     const listItems = document.querySelectorAll(".chatbox .bulletPoint button");
 
-    listItems.forEach((li) => {
+
+    bulletPoints.forEach((li) => {
         li.addEventListener("click", () => {
-          const value = li.textContent.trim();
-          console.log(value);
+            const value = li.textContent.trim();
+            //   console.log(value);
+            userMessage = value; // Get user entered message and remove extra whitespace
+            if (!userMessage) return;
+
+            // Clear the input textarea and set its height to default
+            chatInput.value = "";
+            chatInput.style.height = `${inputInitHeight}px`;
+
+            // Append the user's message to the chatbox
+            chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+
+            setTimeout(() => {
+                // Display "Thinking..." message while waiting for the response
+                const incomingChatLi = createChatLi("Thinking...", "incoming");
+                chatbox.appendChild(incomingChatLi);
+                chatbox.scrollTo(0, chatbox.scrollHeight);
+                console.log(incomingChatLi);
+                generateResponse(incomingChatLi);
+            }, 600);
+
+            // bulletPoints.forEach((li) => {
+            //     li.remove();
+            // })
+         
         });
-      });
+    });
 
     let userMessage = null; // Variable to store user's message
     const API_KEY = "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"; // Paste your API key here
@@ -63,6 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
     }
 
+
+
+
     const handleChat = () => {
         userMessage = chatInput.value.trim(); // Get user entered message and remove extra whitespace
         if (!userMessage) return;
@@ -80,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const incomingChatLi = createChatLi("Thinking...", "incoming");
             chatbox.appendChild(incomingChatLi);
             chatbox.scrollTo(0, chatbox.scrollHeight);
+            console.log(incomingChatLi);
             generateResponse(incomingChatLi);
         }, 600);
     }
@@ -104,6 +133,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+
+
+
     const handleItemClick = () => {
         console.log("clicked");
 
@@ -122,13 +154,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-
-
-
     sendChatBtn.addEventListener("click", handleChat);
     closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
     chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
-    bulletPoint.addEventListener("click", handleItemClick);
+    // bulletPoint.addEventListener("click", handleItemClick);
 
 
 

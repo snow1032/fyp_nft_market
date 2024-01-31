@@ -15,41 +15,40 @@ import { Link } from "react-router-dom";
 const NftDetails = () => {
   const { id } = useParams();
   const [nftData, setNftData] = useState([]);
-  const singleNft = NFT__DATA.find((item) => item.id === id);
+  const [singleNft, setSingleNft] = useState([]);
 
   // const singleNft = useState(NFT__DATA2.then((data) => { data.map((item) => { if (item.id == id) { return data; } }) }));
-
+  // const {  name, url, creator, owner, tokenID, price, royalties, description, cid ,cidV1} = useState(NFT__DATA2.then((data) => { data.map((item) => { if (item.id == id) { return data; } }) }));
 
 
 
 
   useEffect(() => {
-    NFT__DATA2.then((data) => { setNftData(...nftData, data) });
+    NFT__DATA2.then((data) => {
+      data.map((item) => {
+        if (item.id == id) {
+          setSingleNft(item);
+     
+        }
 
-    console.log(nftData);
-    const test = nftData.map((item) => {
-      if (item.id == id) {
-        console.log(item);
-        return item;
-      }
+      })
 
-    })
-
-    // console.log(test);
-  }, []);
+      console.log(singleNft);
+    }, [])
+  });
 
 
   return (
     <>
 
-      {/* <CommonSection title={nftData.name} /> */}
+      <CommonSection title={singleNft.name} />
 
-      {/* <section>
+      <section>
         <Container>
           <Row>
             <Col lg="6" md="6" sm="6">
               <img
-                src={singleNft.imgUrl}
+                src={"http://"+singleNft.cidV1+".ipfs.localhost:8080/?filename=" + singleNft.cid}
                 alt=""
                 className="w-100 single__nft-img"
               />
@@ -90,7 +89,7 @@ const NftDetails = () => {
                   </div>
                 </div>
 
-                <p className="my-4">{singleNft.desc}</p>
+                <p className="my-4">{singleNft.description}</p>
                 <button className="singleNft-btn d-flex align-items-center gap-2 w-100">
                   <i class="ri-shopping-bag-line"></i>
                   <Link to="/wallet">Place a Bid</Link>
@@ -99,7 +98,7 @@ const NftDetails = () => {
             </Col>
           </Row>
         </Container>
-      </section> */}
+      </section>  
 
       <LiveAuction />
     </>
