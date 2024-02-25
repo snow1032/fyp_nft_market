@@ -24,7 +24,7 @@ class NFTsController extends Controller
     public function __construct()
     {
         self::$web3 = new Web3('http://localhost:8545');
-        self::$contractAddress = "0x78Cb2A9459E80B645cE909dd8aDB8c0e6EF3B7cE";
+        self::$contractAddress = "0x633CeD4b41f13b0DDCd62936dcb8BC27A8FdC9b5";
         $abi = Storage::get('NFTs_abi.json');
         // print_r($abi);
         $bytecode = Storage::get('bytecode.txt');
@@ -211,6 +211,7 @@ class NFTsController extends Controller
                         }
                         echo 'Tx hash: ' . $transaction . PHP_EOL;
                         $nft->owner = $user->id;
+                        $nft->save();
                         echo true;
                     });
                 } else {
