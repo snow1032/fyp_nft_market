@@ -24,7 +24,7 @@ class NFTsController extends Controller
     public function __construct()
     {
         self::$web3 = new Web3('http://localhost:8545');
-        self::$contractAddress = "0x633CeD4b41f13b0DDCd62936dcb8BC27A8FdC9b5";
+        self::$contractAddress = "0x6341926456D1924Ed620BcB210cb9BC8FC52ACf6";
         $abi = Storage::get('NFTs_abi.json');
         // print_r($abi);
         $bytecode = Storage::get('bytecode.txt');

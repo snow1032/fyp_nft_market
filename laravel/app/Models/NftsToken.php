@@ -20,7 +20,7 @@ class NFTsToken extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'url', 'creator', 'owner', 'tokenID', 'price', 'royalties', 'description','cid','cidV1',
+        'name', 'url', 'creator', 'owner', 'tokenID', 'price', 'royalties', 'description','cid','cidV1','status',
     ];
 
     /**
