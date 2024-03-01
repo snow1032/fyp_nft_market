@@ -24,7 +24,7 @@ class NFTsController extends Controller
     public function __construct()
     {
         self::$web3 = new Web3('http://localhost:8545');
-        self::$contractAddress = "0x6341926456D1924Ed620BcB210cb9BC8FC52ACf6";
+        self::$contractAddress = "0x18B99084046faD9428339Bd337d94f58DEC305fA";
         $abi = Storage::get('NFTs_abi.json');
         // print_r($abi);
         $bytecode = Storage::get('bytecode.txt');
@@ -209,16 +209,41 @@ class NFTsController extends Controller
                             echo 'Error: ' . $err->getMessage();
                             return;
                         }
-                        echo 'Tx hash: ' . $transaction . PHP_EOL;
-                        $nft->owner = $user->id;
-                        $nft->save();
-                        echo true;
+                        //echo 'Tx hash: ' . $transaction . PHP_EOL;
+                        if($this->transferNFTs($sellerAddr, $buyerAddr, $nft->tokenID)){
+                            $nft->owner = $user->id;
+                            $nft->save();
+                            echo true;
+                        }
+                        echo false;
                     });
                 } else {
                     echo false;
                 }
             }
         });
+    }
+
+    private function transferNFTs($from, $to, $tokenID){
+        // $from = "0xF7A06c687C9fC4b7549F207088F38eB666Fd8Eb2";
+        // $to = "0x6f55c34c800C6EAEAc43E5260889941318299081";
+        // $tokenId = "dabc45ef0273497d865a7df70d45fb28";
+
+        NFTsController::$contract->at(NFTsController::$contractAddress)->send("safeTransferFrom", $from, $to, $tokenID, [
+            'from' => $from,
+            'to' => $to,
+            'tokenId' => $tokenID,
+            'gas' => '0x200b20',
+        ], function($err, $result){
+            if ($err !== null) {
+                // print_r($err);
+                throw $err;
+            } else {
+                return true; 
+            }
+        });
+        return true;
+        
     }
 
 

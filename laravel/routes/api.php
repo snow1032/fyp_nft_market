@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profile/upload_backdrop', [ProfileController::class, 'uploadBackdrop']);
     Route::get('/profile/backdrop', [ProfileController::class, 'getBackdrop']);
     Route::post('/profile/profile_data', [ProfileController::class, 'getProfile']);
-
+    Route::post('/profile/getBoughtNFTs', [ProfileController::class, 'getBoughtNFTs']);
 
     //ETH and NFTs
     Route::post('/eth/getBalance', [EthereumController::class, 'getBalance']);

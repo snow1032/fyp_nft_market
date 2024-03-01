@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\NftsToken;
 
 class ProfileController extends Controller
 {
@@ -111,5 +112,12 @@ class ProfileController extends Controller
             'email' => $user_profile->email,
             'biography' => $user_profile->biography,
         ], 200);
+    }
+
+    public function getBoughtNFTs(Request $request){
+        $user = $request->user();
+        $boughtNFTs = NftsToken::where('owner', $user->id)->get();
+
+        return $boughtNFTs;
     }
 }
