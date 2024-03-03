@@ -21,6 +21,10 @@ const NAV__LINKS = [
     url: "/create",
   },
   {
+    display: "Collection",
+    url: "/Collection",
+  },
+  {
     display: "Contact",
     url: "/contact",
   },
@@ -170,7 +174,8 @@ const Header = () => {
           </div>
 
           <div className="nav__right d-flex align-items-center gap-5 ">
-            <button className="btn d-flex gap-2 align-items-center" onClick={connectWallentAccount}>
+            <button className="btn d-flex gap-2 align-items-center" Style="position: absolute;" 
+             onClick={connectWallentAccount}>
               <span>
                 <i class="ri-wallet-line"></i>
               </span>
@@ -185,7 +190,7 @@ const Header = () => {
           </div>
 
           <div class="dropdown nav__right">
-            <button class="btn d-flex gap-2 align-items-center iconButton">{localStorage.getItem("ACCESS_TOKEN")}</button>
+            <button class="btn d-flex gap-2 align-items-center iconButton" Style="width: 20em;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{localStorage.getItem("ACCESS_TOKEN")}</button>
             <div class="dropdown-content">
               <a class="dropdown-item" href="#" onClick={handleLogout}> Logout </a>
               <a class="dropdown-item" href="#">Contact </a>
