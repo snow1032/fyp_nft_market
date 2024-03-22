@@ -199,12 +199,20 @@ class NFTsController extends Controller
 
     public function buyNFTs(Request $request){
         //connect eth
+        header('Content-Type: application/json');
         $web3 = new Web3('http://localhost:8545');
         $eth = $web3->eth;
     
         $user = $request->user();
         $id = $request->input('id');
         $nft = NftsToken::find($id);
+
+
+        if($nft->status == 1){
+
+            return array("status"=>false);
+        }
+
         $nft_price = Utils::toWei((string) $nft->price, 'ether');
     
         $gasLimit = 21000;
@@ -232,15 +240,24 @@ class NFTsController extends Controller
                         if($this->transferNFTs($sellerAddr, $buyerAddr, $nft->tokenID)){
                             $nft->owner = $user->id;
                             $nft->save();
-                            echo true;
+                            return array("status"=>true);
                         }
-                        echo false;
+                        return array("status"=>false);
                     });
                 } else {
-                    echo false;
+                    return array("status"=>false);
                 }
             }
         });
+    }
+
+    public function buyNFTsReact(){
+        //connect eth
+        $web3 = new Web3('http://localhost:8545');
+        $eth = $web3->eth;
+
+
+
     }
 
     private function transferNFTs($from, $to, $tokenID){
