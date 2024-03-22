@@ -161,7 +161,15 @@ const Header = () => {
 
 
                     {
-                      item.display == "Login" && localStorage.getItem('ACCESS_TOKEN') != null ? "" : item.display
+                      item.display == "Login" && localStorage.getItem('ACCESS_TOKEN') != null ?   <div class="dropdown nav__right">
+                      <button class="btn d-flex gap-2 align-items-center iconButton login__icon" Style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{localStorage.getItem("ACCESS_TOKEN")}</button>
+                      <div class="dropdown-content">
+                        <a class="dropdown-item" href="#" onClick={handleLogout}> Logout </a>
+                        <a class="dropdown-item" href="#">Contact </a>
+                        <a class="dropdown-item" href="#"> Notifications </a>
+                        <a class="dropdown-item" href="#"> Setting </a>
+                      </div>
+                    </div> : item.display
                       // item.display
                     }
 
@@ -189,15 +197,7 @@ const Header = () => {
             </span>
           </div>
 
-          <div class="dropdown nav__right">
-            <button class="btn d-flex gap-2 align-items-center iconButton" Style="width: 20em;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{localStorage.getItem("ACCESS_TOKEN")}</button>
-            <div class="dropdown-content">
-              <a class="dropdown-item" href="#" onClick={handleLogout}> Logout </a>
-              <a class="dropdown-item" href="#">Contact </a>
-              <a class="dropdown-item" href="#"> Notifications </a>
-              <a class="dropdown-item" href="#"> Setting </a>
-            </div>
-          </div>
+        
         </div>
 
 
