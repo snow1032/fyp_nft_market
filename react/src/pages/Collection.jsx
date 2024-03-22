@@ -63,8 +63,7 @@ const Collection = () => {
             <section>
                 <Container>
                     <Row>
-                        <div>sad</div>
-
+            
                         {nftData?.map((item) => (
                             <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
                                 <NftCard item={item} />

@@ -41,6 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/nft/createContract', [NFTsController::class, 'createContract']);
     Route::post('/nft/mintNFTs', [NFTsController::class, 'mintNFTs']);
     Route::post('/nft/buyNFTs', [NFTsController::class, 'buyNFTs']);
+    Route::get('/nft/collectionNFT', [NFTsController::class, 'collectionNFT']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

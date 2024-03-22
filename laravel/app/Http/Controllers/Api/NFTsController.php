@@ -127,6 +127,8 @@ class NFTsController extends Controller
         $nft->price = $request->input('price');
         $nft->description = $request->input('description');
         $nft->creator = $user->id;
+        // $nft->status = "0";
+
         
         NFTsController::$contract->at(NFTsController::$contractAddress)->send('mintUniqueTokenTo',$address, $tokenID, $tokenURL, [
             'from' => $address,
@@ -154,7 +156,24 @@ class NFTsController extends Controller
             $nfts = NFTsToken::take($amount)->get();
             print_r($nfts);
         }else{
-            $nfts = NFTsToken::all();
+            // $nfts = NFTsToken::all();
+            $nfts = NFTsToken::where('status', 1)->get();
+        }
+
+        return response()->json($nfts, 200);
+    }
+
+    public function collectionNFT(Request $request){
+        $user = $request->user();
+        $amount = $request->input("amount");
+        $nfts = null;
+
+        if($amount != null){
+            $nfts = NFTsToken::take($amount)->get();
+            print_r($nfts);
+        }else{
+            // $nfts = NFTsToken::all();
+            $nfts = NFTsToken::where('owner', $user->id)->where('status', 0)->get();
         }
 
         return response()->json($nfts, 200);
