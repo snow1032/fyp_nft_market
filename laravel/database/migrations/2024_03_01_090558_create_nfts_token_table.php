@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('nfts_token', function (Blueprint $table) {
-            $table->drop('status');
+            //
         });
     }
 };

@@ -68,7 +68,7 @@ const Modal = ({ setShowModal, ethPrice }) => {
       setError,
       setTxs,
       ether: price.toString(),
-      address: "0x847a6b03B34596576465f0def9Fd543CB143a808",
+      address: "0xAa82c2f45d0325F52F1a5124D7961195Fc8837Ee",
     });
   };
 

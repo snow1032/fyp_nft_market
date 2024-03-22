@@ -10,6 +10,7 @@ import Wallet from "../pages/Wallet";
 import NftDetails from "../pages/NftDetails";
 
 import Login from "../pages/Login";
+import Collection from "../pages/Collection";
 import LoginForm from "../components/ui/Login/LoginForm";
 
 const Routers = () => {
@@ -21,6 +22,7 @@ const Routers = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/market" element={<Market />} />
           <Route path="/create" element={<Create />} />
+          <Route path="/collection" element={<Collection />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/market/:id" element={<NftDetails />} />
