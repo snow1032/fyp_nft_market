@@ -127,6 +127,7 @@ class NFTsController extends Controller
         $nft->price = $request->input('price');
         $nft->description = $request->input('description');
         $nft->creator = $user->id;
+        $nft->owner = $user->id;
         
         NFTsController::$contract->at(NFTsController::$contractAddress)->send('mintUniqueTokenTo',$address, $tokenID, $tokenURL, [
             'from' => $address,
@@ -188,9 +189,7 @@ class NFTsController extends Controller
         $id = $request->input('id');
         $nft = NftsToken::find($id);
 
-
-        if($nft->status == 1){
-
+        if($nft->status == 1 && $nft->owner == $user->id){
             return array("status"=>false);
         }
 
@@ -232,13 +231,27 @@ class NFTsController extends Controller
         });
     }
 
-    public function buyNFTsReact(){
+    public function buyNFTsForReact(Request $request){
         //connect eth
         $web3 = new Web3('http://localhost:8545');
         $eth = $web3->eth;
 
+        $user = $request->user();
+        $id = $request->input('id');
+        $nft = NftsToken::find($id);
 
+        if($nft->status == 1 && $nft->owner == $user->id){
+            return array("status"=>false, "message"=>"purchase NFTs failed");
+        }
 
+        $buyerAddr = $user->address; // buyer
+        $sellerAddr = User::find($nft->creator)->address; // seller
+
+        if($this->transferNFTs($sellerAddr, $buyerAddr, $nft->tokenID)){
+            $nft->owner = $user->id;
+            $nft->save();
+            return array("status"=>true);
+        }
     }
 
     private function transferNFTs($from, $to, $tokenID){
