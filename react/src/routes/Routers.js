@@ -12,6 +12,7 @@ import NftDetails from "../pages/NftDetails";
 import Login from "../pages/Login";
 import Collection from "../pages/Collection";
 import LoginForm from "../components/ui/Login/LoginForm";
+import CreatorCollection from "../pages/CreatorCollection";
 
 const Routers = () => {
   return (
@@ -26,6 +27,7 @@ const Routers = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/market/:id" element={<NftDetails />} />
+          <Route path="/creatorCollection/:userId" element={<CreatorCollection />} />
       </Routes>
   );
 };

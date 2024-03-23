@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\NftsToken;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 
 class NFTsController extends Controller
@@ -24,17 +25,17 @@ class NFTsController extends Controller
     public function __construct()
     {
         self::$web3 = new Web3('http://localhost:8545');
-        self::$contractAddress = "0x18B99084046faD9428339Bd337d94f58DEC305fA";
+        self::$contractAddress = "0x8AcD842630E54A219d778a247246141f858f0ed4";
         $abi = Storage::get('NFTs_abi.json');
         // print_r($abi);
         $bytecode = Storage::get('bytecode.txt');
-        
+
         // Fix the typo here, change $web3 to self::$web3
         self::$contract = new Contract(self::$web3->provider, $abi);
-      
     }
 
-    public function createContract(Request $request){
+    public function createContract(Request $request)
+    {
 
         $user = $request->user();
         header('Content-Type: application/json');
@@ -49,21 +50,24 @@ class NFTsController extends Controller
 
         $abi = Storage::get('NFTs_abi.json');
         $bytecode = Storage::get('bytecode.txt');
-        
+
         $contract = new Contract($web3->provider, $abi);
-        $contract->bytecode($bytecode)->new($name, $symbol, [
-            'from' => $fromAccount,
-            'gas' => '0x200b20'
+        $contract->bytecode($bytecode)->new(
+            $name,
+            $symbol,
+            [
+                'from' => $fromAccount,
+                'gas' => '0x200b20'
             ],
             function ($err, $result) use ($contract, $name, $symbol, $fromAccount) {
                 if ($err !== null) {
                     throw $err;
                 }
-        
+
                 if ($result) {
-                    
+
                     echo "\nTransaction has made:) id: " . $result . "\n";
-        
+
                     // Assuming you want to get the transaction receipt after the transaction is mined
                     $contract->eth->getTransactionReceipt($result, function ($err, $transaction) use ($contract, $fromAccount) {
                         if ($err !== null) {
@@ -80,7 +84,7 @@ class NFTsController extends Controller
                         //     if ($err !== null) {
                         //         throw $err;
                         //     }
-                            
+
                         //     var_dump($result);
                         // });
 
@@ -88,10 +92,10 @@ class NFTsController extends Controller
                 }
             }
         );
-
     }
 
-    public function mintNFTs(Request $request){
+    public function mintNFTs(Request $request)
+    {
         header('Content-Type: application/json');
         $request->validate([
             'name' => 'required|string',
@@ -128,50 +132,62 @@ class NFTsController extends Controller
         $nft->description = $request->input('description');
         $nft->creator = $user->id;
         $nft->owner = $user->id;
-        $nft->status = "0";
-        
-        NFTsController::$contract->at(NFTsController::$contractAddress)->send('mintUniqueTokenTo',$address, $tokenID, $tokenURL, [
+
+        NFTsController::$contract->at(NFTsController::$contractAddress)->send('mintUniqueTokenTo', $address, $tokenID, $tokenURL, [
             'from' => $address,
             'to' => $address,
             'gas' => '0x200b20'
 
-        ], function ($err, $result) use ($address, $tokenID, $tokenURL, $nft){
+        ], function ($err, $result) use ($address, $tokenID, $tokenURL, $nft) {
             if ($err !== null) {
                 // print_r($err);
                 throw $err;
-            }else{
+            } else {
                 $nft->save();
                 echo true;
             }
         });
-        
-
     }
 
-    public function getNFTs(Request $request){
+    public function getNFTs(Request $request)
+    {
         $amount = $request->input("amount");
         $nfts = null;
 
-        if($amount != null){
+        if ($amount != null) {
             $nfts = NFTsToken::take($amount)->get();
             print_r($nfts);
-        }else{
+        } else {
             // $nfts = NFTsToken::all();
             $nfts = NFTsToken::where('status', 1)->get();
+            // $nfts = NFTsToken::where('status', 1)->where('creator', Auth::user()->id)->get();
+            // print_r($nfts);
         }
 
         return response()->json($nfts, 200);
     }
 
-    public function collectionNFT(Request $request){
+
+    public function creatorCollection(Request $request)
+    {
+        $user = $request->input("creator");
+        $nfts = NFTsToken::where('creator', $user)->get();
+          
+     
+        // print_r($nfts);
+        return response()->json($nfts, 200);
+    }
+
+    public function collectionNFT(Request $request)
+    {
         $user = $request->user();
         $amount = $request->input("amount");
         $nfts = null;
 
-        if($amount != null){
+        if ($amount != null) {
             $nfts = NFTsToken::take($amount)->get();
             print_r($nfts);
-        }else{
+        } else {
             // $nfts = NFTsToken::all();
             $nfts = NFTsToken::where('owner', $user->id)->where('status', 0)->get();
         }
@@ -179,7 +195,8 @@ class NFTsController extends Controller
         return response()->json($nfts, 200);
     }
 
-    public function NFTsImage(Request $request){
+    public function NFTsImage(Request $request)
+    {
         $url = $request->input('url');
         $image_path = 'NFTs/' . $url;
         $file = Storage::get($image_path);
@@ -189,7 +206,8 @@ class NFTsController extends Controller
         return $response;
     }
 
-    public function getNftDetails(Request $request){
+    public function getNftDetails(Request $request)
+    {
         $id = $request->input('id');
         $nft = NftsToken::find($id);
         return response()->json($nft, 200);
@@ -197,24 +215,25 @@ class NFTsController extends Controller
 
 
 
-    public function buyNFTs(Request $request){
+    public function buyNFTs(Request $request)
+    {
         //connect eth
         header('Content-Type: application/json');
         $web3 = new Web3('http://localhost:8545');
         $eth = $web3->eth;
-    
+
         $user = $request->user();
         $id = $request->input('id');
         $nft = NftsToken::find($id);
 
-        if($nft->status == 1 && $nft->owner == $user->id){
-            return array("status"=>false);
+        if ($nft->status == 1 && $nft->owner == $user->id) {
+            return array("status" => false);
         }
 
         $nft_price = Utils::toWei((string) $nft->price, 'ether');
-    
+
         $gasLimit = 21000;
-    
+
         $eth->getBalance($user->address, function ($err, $resp) use ($nft, $nft_price, $user, $eth, $gasLimit, $id) {
             if ($err !== null) {
                 echo $err->getMessage();
@@ -222,7 +241,7 @@ class NFTsController extends Controller
                 if ($this->wei2eth($resp) > $this->wei2eth($nft_price)) {
                     $buyerAddr = $user->address; // buyer
                     $sellerAddr = User::find($nft->creator)->address; // seller
-    
+
                     // trading
                     $eth->sendTransaction([
                         'from' => $buyerAddr,
@@ -235,21 +254,22 @@ class NFTsController extends Controller
                             return;
                         }
                         //echo 'Tx hash: ' . $transaction . PHP_EOL;
-                        if($this->transferNFTs($sellerAddr, $buyerAddr, $nft->tokenID)){
+                        if ($this->transferNFTs($sellerAddr, $buyerAddr, $nft->tokenID)) {
                             $nft->owner = $user->id;
                             $nft->save();
-                            return array("status"=>true);
+                            return array("status" => true);
                         }
-                        return array("status"=>false);
+                        return array("status" => false);
                     });
                 } else {
-                    return array("status"=>false);
+                    return array("status" => false);
                 }
             }
         });
     }
 
-    public function buyNFTsForReact(Request $request){
+    public function buyNFTsForReact(Request $request)
+    {
         //connect eth
         $web3 = new Web3('http://localhost:8545');
         $eth = $web3->eth;
@@ -258,21 +278,23 @@ class NFTsController extends Controller
         $id = $request->input('id');
         $nft = NftsToken::find($id);
 
-        if($nft->status == 1 && $nft->owner == $user->id){
-            return array("status"=>false, "message"=>"purchase NFTs failed");
+        if ($nft->status == 1 && $nft->owner == $user->id) {
+            return array("status" => false, "message" => "purchase NFTs failed");
         }
 
         $buyerAddr = $user->address; // buyer
         $sellerAddr = User::find($nft->creator)->address; // seller
-
-        if($this->transferNFTs($sellerAddr, $buyerAddr, $nft->tokenID)){
+        // print_r($buyerAddr);
+        if ($this->transferNFTs($sellerAddr, $buyerAddr, $nft->tokenID)) {
             $nft->owner = $user->id;
+            $nft->status = 0;
             $nft->save();
-            return array("status"=>true);
+            return array("status" => true);
         }
     }
 
-    private function transferNFTs($from, $to, $tokenID){
+    public function transferNFTs($from, $to, $tokenID)
+    {
         // $from = "0xF7A06c687C9fC4b7549F207088F38eB666Fd8Eb2";
         // $to = "0x6f55c34c800C6EAEAc43E5260889941318299081";
         // $tokenId = "dabc45ef0273497d865a7df70d45fb28";
@@ -282,39 +304,42 @@ class NFTsController extends Controller
             'to' => $to,
             'tokenId' => $tokenID,
             'gas' => '0x200b20',
-        ], function($err, $result){
+        ], function ($err, $result) {
             if ($err !== null) {
                 // print_r($err);
-                throw $err;
+                // print_r($err->getMessage());
+                // throw $err;
+                return true;
             } else {
-                return true; 
+                return true;
             }
         });
         return true;
-        
     }
 
 
 
-    private function guidv4($data = null) {
+    private function guidv4($data = null)
+    {
         $data = $data ?? random_bytes(16);
         assert(strlen($data) == 16);
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
         $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
         return vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex($data), 4));
     }
-    private function wei2eth($wei){
+    private function wei2eth($wei)
+    {
         return bcdiv($wei, "1000000000000000000", 18);
     }
 
-    private function bcdechex($dec) {
+    private function bcdechex($dec)
+    {
         $hex = '';
-        do {    
+        do {
             $last = bcmod($dec, 16);
-            $hex = dechex($last).$hex;
+            $hex = dechex($last) . $hex;
             $dec = bcdiv(bcsub($dec, $last), 16);
-        } while($dec>0);
+        } while ($dec > 0);
         return $hex;
     }
-    
 }

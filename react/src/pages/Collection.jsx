@@ -22,7 +22,7 @@ const Collection = () => {
         NFT__CollectionData.then((data) => { setNftData(...nftData, data) });
 
         // NFT__CollectionData.catch((err) => console.log(err))
-
+        NFT__CollectionData.then((data) => { console.log(data) });
     }, [])
 
     return (
