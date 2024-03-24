@@ -341,6 +341,21 @@ class NFTsController extends Controller
         return true;
     }
 
+
+    public function sellMyNFTs(Request $request){
+        $user = $request->user();
+        $id = $request->input('id');
+        $nft = NftsToken::find($id);
+        if($nft->owner == $user->id){
+            $nft->status = 0;
+            $nft->save();
+            return response()->json(["status" => true], 200);
+        }
+        return response()->json(["status" => false], 200);
+        
+    }
+
+
     private function guidv4($data = null) {
         $data = $data ?? random_bytes(16);
         assert(strlen($data) == 16);
