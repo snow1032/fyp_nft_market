@@ -10,14 +10,14 @@ import Modal from "../Modal/Modal";
 const NftCard = (props) => {
   // console.log(props.item);
   // const { title, id, currentBid, creatorImg, imgUrl, creator} = props.item;
-  const { id, name, url, creator, owner, tokenID, price, royalties, description, cid ,cidV1} = props.item;
+  const { id, name, url, creator, owner, tokenID, price, royalties, description, cid ,cidV1,creator_name} = props.item;
 
   const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="single__nft__card">
       <div className="nft__img">
-        <img src={"http://"+cidV1+".ipfs.localhost:8080/?filename=" + cid} alt="" className="w-100" />
+        <img src={"http://"+cidV1+".ipfs.localhost:8080/?filename=" + cid} alt="" className="w-100"/>
         {/* <img src={"https://ipfs.io/ipfs/" + cid} alt="" className="w-100" /> */}
      
       </div>
@@ -35,7 +35,7 @@ const NftCard = (props) => {
           <div className="creator__info w-100 d-flex align-items-center justify-content-between">
             <div>
               <h6>Created By</h6>
-              <p>{creator}</p>
+              <p>{creator_name}</p>
             </div>
 
             <div>
@@ -57,7 +57,7 @@ const NftCard = (props) => {
             <i class="ri-shopping-bag-line"></i> Place Bid
           </button>
 
-          {showModal && <Modal setShowModal={setShowModal} ethPrice={price} nftID={id} name={name} />}
+          {showModal && <Modal setShowModal={setShowModal} ethPrice={price} nftID={id} name={name} owner={owner} />}
 
             <span className="history__link">
               <Link to={`/market/${id}`}>View History</Link>

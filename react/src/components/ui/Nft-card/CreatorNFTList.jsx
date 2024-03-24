@@ -8,9 +8,9 @@ import "../../../assets/css/button.css";
 import Modal from "../Modal/Modal";
 
 const CreatorNFTList = (props) => {
-  // console.log(props.item);
+  console.log(props.item);
   // const { title, id, currentBid, creatorImg, imgUrl, creator} = props.item;
-  const { id, name, url, creator, owner, tokenID, price, royalties, description, cid ,cidV1} = props.item;
+  const { id, name, url, creator, owner, tokenID, price, royalties, description, cid ,cidV1,creator_name} = props.item;
 
   const [showModal, setShowModal] = useState(false);
 
@@ -35,7 +35,7 @@ const CreatorNFTList = (props) => {
           <div className="creator__info w-100 d-flex align-items-center justify-content-between">
             <div>
               <h6>Created By</h6>
-              <p>{creator}</p>
+              <p>{creator_name}</p>
             </div>
 
             <div>

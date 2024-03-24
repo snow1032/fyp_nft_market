@@ -69,3 +69,4 @@ Route::get('/nft/getNFTs', [NFTsController::class, 'getNFTs']);
 Route::get('/nft/imageURL', [NFTsController::class, 'NFTsImage']);
 Route::get('/nft/get_nft_details', [NFTsController::class, 'getNftDetails']);
 Route::post('/nft/creatorCollection', [NFTsController::class, 'creatorCollection']);
+Route::post('/nft/getOwnerAddress', [NFTsController::class, 'getOwnerAddress']);

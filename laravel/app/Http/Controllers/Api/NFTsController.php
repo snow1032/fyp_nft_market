@@ -155,7 +155,8 @@ class NFTsController extends Controller
     public function getNFTs(Request $request){
         header("Content-Type: application/json");
         $amount = $request->input("amount");
-        $nfts = NFTsToken::all();
+        // $nfts = NFTsToken::all();
+        $nfts = NFTsToken::where('status', 1)->get();
 
         foreach($nfts as $nft){
             $creater = User::find($nft->creator);
@@ -174,7 +175,10 @@ class NFTsController extends Controller
     {
         $user = $request->input("creator");
         $nfts = NFTsToken::where('creator', $user)->get();
-        // print_r($nfts);
+        foreach($nfts as $nft){
+            $creater = User::find($nft->creator);
+            $nft["creator_name"] = $creater->name;
+        }
         return response()->json($nfts, 200);
     }
 
@@ -213,6 +217,14 @@ class NFTsController extends Controller
         $user = User::find($nft->owner);
         $nft["owner_name"] = $user->name;
         return response()->json($nft, 200);
+    }
+
+    public function getOwnerAddress(Request $request)
+    {
+        $id = $request->input('owner');
+        $owner = User::where('id',$id)->get('address');
+    
+        return response()->json($owner, 200);
     }
 
 

@@ -1,11 +1,12 @@
 // import React from "react";
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { ethers } from "ethers";
 // import transactionObject from "../../Transaction/Transaction";
 import ErrorMessage from "./ErrorMessage";
 import TxList from "./TxList";
 import Swal from "sweetalert";
 import "./modal.css";
+import { getOwnerAddress } from "../../../assets/api/api";
 
 const startPayment = async ({ setError, setTxs, ether, address }) => {
   try {
@@ -41,24 +42,33 @@ const startPayment = async ({ setError, setTxs, ether, address }) => {
   }
 }
 
-const Modal = ({ setShowModal, ethPrice, nftID, name }) => {
+const Modal = ({ setShowModal, ethPrice, nftID, name, owner }) => {
   // console.log(setEth);
 
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('0.0');
 
 
-  const handleChange = event => {
-    setQuantity(event.target.value);
-    setPrice(event.target.value * ethPrice);
-    console.log('value is:', event.target.value);
-  };
-
+  // const handleChange = event => {
+  //   setQuantity(event.target.value);
+  //   setPrice(event.target.value * ethPrice);
+  //   console.log('value is:', event.target.value);
+  // };
+  useEffect(() => {
+    setPrice(ethPrice + 0.89);
+  }, [ethPrice]);
 
   const [error, setError] = useState();
   const [txs, setTxs] = useState([]);
 
   const handleSubmit = async (e) => {
+
+    const getOwnAddress = new FormData();
+    getOwnAddress.append('owner', owner);
+    getOwnerAddress(getOwnAddress).then((data) => {
+      console.log(data);
+    })
+
     // console.log("clicked");
     var address = "0x847a6b03B34596576465f0def9Fd543CB143a808"
     // console.log(address);
@@ -139,10 +149,10 @@ const Modal = ({ setShowModal, ethPrice, nftID, name }) => {
           <input type="number" placeholder={ethPrice+" ETH"} />
         </div> */}
 
-        <div className="input__item mb-3">
+        {/* <div className="input__item mb-3">
           <h6>Enter Quantity, 7 available</h6>
           <input type="number" min="1" placeholder="Enter quantity" onChange={handleChange} value={quantity} />
-        </div>
+        </div> */}
 
         <div className=" d-flex align-items-center justify-content-between">
           <p>You must bid at least</p>
