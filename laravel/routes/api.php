@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/nft/buyNFTs', [NFTsController::class, 'buyNFTs']);
     Route::post('/nft/buyNFTsForReact', [NFTsController::class, 'buyNFTsForReact']);
     Route::get('/nft/collectionNFT', [NFTsController::class, 'collectionNFT']);
+    Route::post('/nft/sellMyNFTs', [NFTsController::class, 'sellMyNFTs']);
 
 
     
