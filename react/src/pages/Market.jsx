@@ -53,11 +53,12 @@ const Market = () => {
   useEffect(() => {
     NFT__DATA2.then((data) => { setNftData(...nftData, data) });
 
-   
+
   }, [])
 
   return (
     <>
+      {nftData.map((item) => {console.log(item)})}
       <CommonSection title={"MarketPlace"} />
 
       <section>
@@ -98,6 +99,7 @@ const Market = () => {
             </Col> */}
 
             {nftData?.map((item) => (
+
               <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
                 <NftCard item={item} />
               </Col>

@@ -85,7 +85,8 @@ const NftDetails = () => {
 
                   <div className="creator__detail">
                     <p>Created By</p>
-                    <h6>{singleNft.creator}</h6>
+                    {/* <h6>  <Link to={`/market/${singleNft.creator}`}>{singleNft.creator}</Link></h6> */}
+                    <Link to={`/creatorCollection/${singleNft.creator}`}>{singleNft.creator}</Link>
                   </div>
                 </div>
 

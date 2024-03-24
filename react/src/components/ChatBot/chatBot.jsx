@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 export default function ChatBot(props) {
 
 
-  const bulletPorints = ["What is NFT", "Dolores quaerat illo totam porro", "Quidem aliquid perferendis voluptates", "Fuga"];
+  const bulletPorints = ["What is NFT", "Create an NFT", "What are the key terms to know in NFTs and Web3 ?", "How can I stay safe and protect my NFTs ?"];
 
   const listItems = bulletPorints.map((point) => <li className="bulletPoint" ><button className="btn-grad">{point}</button></li>);
   // const listItems = [

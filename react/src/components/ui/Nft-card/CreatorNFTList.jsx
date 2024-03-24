@@ -7,7 +7,7 @@ import "../../../assets/css/button.css";
 
 import Modal from "../Modal/Modal";
 
-const NftCard = (props) => {
+const CreatorNFTList = (props) => {
   // console.log(props.item);
   // const { title, id, currentBid, creatorImg, imgUrl, creator} = props.item;
   const { id, name, url, creator, owner, tokenID, price, royalties, description, cid ,cidV1} = props.item;
@@ -50,12 +50,18 @@ const NftCard = (props) => {
             className="bid__btn d-flex align-items-center gap-1"
             onClick={() => setShowModal(true)}
           > */}
-          <button
+          {owner == creator? <button
             className="neonButton"
             onClick={() => setShowModal(true)}
           >
-            <i class="ri-shopping-bag-line"></i> Place Bid
-          </button>
+            <i class="ri-shopping-bag-line"></i> Buy
+          </button>: <button
+            className="neonButton"
+            // onClick={() => setShowModal(true)}
+          >
+            <i class="ri-shopping-bag-line"></i> selled
+          </button>}
+      
 
           {showModal && <Modal setShowModal={setShowModal} ethPrice={price} nftID={id} name={name} />}
 
@@ -68,4 +74,4 @@ const NftCard = (props) => {
   );
 };
 
-export default NftCard;
+export default CreatorNFTList;

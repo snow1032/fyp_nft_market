@@ -116,6 +116,35 @@ export const NFT__DATA2 = fetch('http://127.0.0.1:8000/api/nft/getNFTs')
 
   });
 
+  const accessToken = localStorage.getItem('ACCESS_TOKEN');
+  
+  export const NFT__CollectionData = fetch('http://127.0.0.1:8000/api/nft/collectionNFT', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    return data;
+  });
+
+
+  export const Creator_NFT__CollectionData = (creator) => fetch('http://127.0.0.1:8000/api/nft/creatorCollection', {
+    method: 'POST',
+    body: creator,
+    headers: {
+      // Authorization: `Bearer ${accessToken}`,
+      accept: 'application/json',
+    }
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    console.log("test");
+    console.log(creator);
+    return data;
+  });
+
+
 
 export const SELLER__DATA = [
   {
