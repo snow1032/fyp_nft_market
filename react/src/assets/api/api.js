@@ -1,4 +1,4 @@
-export const getOwnerAddress = (owner) => fetch('http://127.0.0.1:8000/api/nft/creatorCollection', {
+export const getOwnerAddress = (owner) => fetch('http://127.0.0.1:8000/api/nft/getOwnerAddress', {
     method: 'POST',
     body: owner,
     headers: {

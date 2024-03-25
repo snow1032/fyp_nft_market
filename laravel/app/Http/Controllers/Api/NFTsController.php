@@ -25,7 +25,7 @@ class NFTsController extends Controller
     public function __construct()
     {
         self::$web3 = new Web3('http://localhost:8545');
-        self::$contractAddress = "0x8AcD842630E54A219d778a247246141f858f0ed4";
+        self::$contractAddress = "0x82a04bEE9447A15f081463Ed80Cbe8bbC06D9a60";
         $abi = Storage::get('NFTs_abi.json');
         // print_r($abi);
         $bytecode = Storage::get('bytecode.txt');
@@ -132,7 +132,7 @@ class NFTsController extends Controller
         $nft->description = $request->input('description');
         $nft->creator = $user->id;
         $nft->owner = $user->id;
-        $nft->status = "0";
+        $nft->status = "1";
 
         NFTsController::$contract->at(NFTsController::$contractAddress)->send('mintUniqueTokenTo',$address, $tokenID, $tokenURL, [
 
@@ -222,9 +222,10 @@ class NFTsController extends Controller
     public function getOwnerAddress(Request $request)
     {
         $id = $request->input('owner');
-        $owner = User::where('id',$id)->get('address');
+        $ownerAddress = User::where('id',$id)->get('address');
     
-        return response()->json($owner, 200);
+        return response()->json($ownerAddress, 200);
+        // return $ownerAddress;
     }
 
 

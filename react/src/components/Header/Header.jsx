@@ -71,7 +71,7 @@ const Header = () => {
 
   async function connectWallentAccount(e) {
     console.log("Requesting account......")
-    // console.log(window.ethereum)
+    // console.log(window.thereum);
     if (window.ethereum) {
       console.log("detected")
 
@@ -88,6 +88,7 @@ const Header = () => {
 
 
         console.log(account);
+        console.log(account[0])
       } catch (error) {
         console.log("Error connecting ..")
       }

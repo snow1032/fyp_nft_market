@@ -1,5 +1,5 @@
 // import React from "react";
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 import { ethers } from "ethers";
 // import transactionObject from "../../Transaction/Transaction";
 import ErrorMessage from "./ErrorMessage";
@@ -30,12 +30,16 @@ const startPayment = async ({ setError, setTxs, ether, address }) => {
       // value: ethers.utils.formatEther(ether)
       value: ethers.utils.parseEther(ether)
     }, console.log("test"));
+    const receipt = await tx.wait();
+    const isSuccessful = receipt.status === 1;
+    // console.log('Transaction successful:', isSuccessful);
 
-
-    console.log("test")
+    // console.log("test")
     setTxs([tx]);
-    console.log({ ether, address });
+    // console.log({ ether, address });
     console.log("tx", tx);
+
+    return isSuccessful;
   } catch (err) {
     console.log(err);
     setError(err.message);
@@ -47,6 +51,7 @@ const Modal = ({ setShowModal, ethPrice, nftID, name, owner }) => {
 
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('0.0');
+  const [ownerAddress, setOwnerAddress] = useState('');
 
 
   // const handleChange = event => {
@@ -66,23 +71,42 @@ const Modal = ({ setShowModal, ethPrice, nftID, name, owner }) => {
     const getOwnAddress = new FormData();
     getOwnAddress.append('owner', owner);
     getOwnerAddress(getOwnAddress).then((data) => {
-      console.log(data);
+      // ownerAddress = data.address;
+      data.map((data) => {
+
+        // ownerAddress = data.address;
+        setOwnerAddress(data.address);
+      })
+      // var address = "0x847a6b03B34596576465f0def9Fd543CB143a808"
+      console.log(typeof (ownerAddress));
+      // console.log(typeof(address));
     })
 
+    // console.log(ownerAddress);
+
     // console.log("clicked");
-    var address = "0x847a6b03B34596576465f0def9Fd543CB143a808"
-    // console.log(address);
-    e.preventDefault();
+    // var address = "0x847a6b03B34596576465f0def9Fd543CB143a808"
+    // var address =ownerAddress;
+    // // console.log(address);
+    // e.preventDefault();
     // const data = new FormData(e.target);
     setError();
+    // setTxs([]);
     await startPayment({
       setError,
       setTxs,
       ether: price.toString(),
-      address: "0xAa82c2f45d0325F52F1a5124D7961195Fc8837Ee",
+      address: ownerAddress,
+    }).then((response) => {
+
+      if (response == true) {
+        console.log(response)
+        buyNFT();
+
+      }
     });
 
-
+    async function buyNFT(e) {
     const accessToken = localStorage.getItem('ACCESS_TOKEN');
     const formData = new FormData();
     formData.append('id', nftID);
@@ -101,7 +125,7 @@ const Modal = ({ setShowModal, ethPrice, nftID, name, owner }) => {
       })
         .then(response => response.json())
         .then(data => {
-          console.log('Buy response:', data);
+          // console.log('Buy response:', data);
           if (data.status == true) {
             Swal({
               title: name,
@@ -109,7 +133,9 @@ const Modal = ({ setShowModal, ethPrice, nftID, name, owner }) => {
               icon: "success",
               dangerMode: true,
               timer: 1500,
-            }).then(() => { window.location.reload(); });
+            }).then(() => {
+               window.location.reload();
+            });
           } else {
             Swal({
               title: "Buy NFT Failed",
@@ -117,7 +143,7 @@ const Modal = ({ setShowModal, ethPrice, nftID, name, owner }) => {
               icon: "error",
 
             })
-            // .then(() => { window.location.reload(); });
+            .then(() => { window.location.reload(); });
 
           }
           // Handle the response data as needed
@@ -127,9 +153,9 @@ const Modal = ({ setShowModal, ethPrice, nftID, name, owner }) => {
           // Handle the error as needed
         });
     }
-
-
+  }
   };
+
 
 
 
