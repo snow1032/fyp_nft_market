@@ -27,6 +27,7 @@ export default function LoginForm(props) {
             // console.log(data);
             // console.log(setToken)
             // console.log(data.user.name)
+            localStorage.setItem('UserId', data.user.id)
             localStorage.setItem('UserName', data.user.name)
             // console.log(localStorage.getItem('UserName'))
             setUser(data.user)

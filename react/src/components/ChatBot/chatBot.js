@@ -1,4 +1,7 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
 document.addEventListener("DOMContentLoaded", () => {
+
+
 
 
 
@@ -38,13 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
             // bulletPoints.forEach((li) => {
             //     li.remove();
             // })
-         
+
         });
     });
 
     let userMessage = null; // Variable to store user's message
-    const API_KEY = "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"; // Paste your API key here
+    // const API_KEY = "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"; // Paste your API key here
     // const API_KEY = "94a905c0-57d2-488d-89d4-e7fc0fe77325"; // Paste your API key here
+    const API_KEY = "AIzaSyD2zOeb_Lk4AwlgkWr7BLN5ikqxaqnlbDY"; // google ai
     const inputInitHeight = chatInput ? chatInput.scrollHeight : 1000;
 
     const createChatLi = (message, className) => {
@@ -57,9 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return chatLi; // return chat <li> element
     }
 
-    const generateResponse = (chatElement) => {
-        const API_URL = "https://api.openai.com/v1/chat/completions";
-        // const API_URL = "https://chatgpt.hkbu.edu.hk/general/rest/deployments/gpt-35-turbo-16k/chat/completions?api-version=2023-08-01-preview";
+    const generateResponse = async (chatElement) => {
+        // const API_URL = "https://api.openai.com/v1/chat/completions";
+        // const API_URL = "https://esm.run/@google/generative-ai"; //google ai
+        const API_URL = "https://chatgpt.hkbu.edu.hk/general/rest";
         const messageElement = chatElement.querySelector("p");
 
         // Define the properties and message for the API request
@@ -75,17 +80,34 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         }
 
-        // Send POST request to API, get response and set the reponse as paragraph text
-        fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
-            messageElement.textContent = data.choices[0].message.content.trim();
-            console.log(data);
-            // console.log(data.choices[0].message.content.trim());
-        }).catch((error) => {
-            console.log(error);
+        // ...
+        // google chatbot ai    
+        // Access your API key (see "Set up your API key" above)
+        const genAI = new GoogleGenerativeAI(API_KEY);
 
-            messageElement.classList.add("error");
-            messageElement.textContent = "Oops! Something went wrong. Please try again.";
-        }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
+        // For text-only input, use the gemini-pro model
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+        const prompt = userMessage
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        console.log(text);
+        messageElement.textContent = text;
+        // google chatbot ai    
+
+        // Send POST request to API, get response and set the reponse as paragraph text
+        // fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
+        //     messageElement.textContent = data.choices[0].message.content.trim();
+        //     console.log(data);
+        //     // console.log(data.choices[0].message.content.trim());
+        // }).catch((error) => {
+        //     console.log(error);
+
+        //     messageElement.classList.add("error");
+        //     messageElement.textContent = "Oops! Something went wrong. Please try again.";
+        // }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
     }
 
 

@@ -195,7 +195,7 @@ const Modal = ({ setShowModal, ethPrice, nftID, name, owner }) => {
           <span className="money">{price} ETH</span>
         </div>
 
-        <button className="place__bid-btn" onClick={handleSubmit}>Place a Bid</button>
+        <button className="place__bid-btn" onClick={handleSubmit}>Comfirm</button>
       </div>
       <ErrorMessage message={error} />
       <TxList txs={txs} />

@@ -272,7 +272,15 @@ const Create = () => {
               </div>
             </Col>
           </Row>
-          <button onClick={handleSubmit} type="submit">Upload</button>
+          {/* <button onClick={handleSubmit} type="submit">Upload</button> */}
+          <button
+            className="neonButton"
+            onClick={handleSubmit}
+          >
+            {/* <i class="ri-shopping-bag-line"></i>  */}
+            Create
+          </button>
+
         </Container>
       </section >
     </>

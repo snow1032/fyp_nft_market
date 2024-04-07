@@ -25,7 +25,7 @@ class NFTsController extends Controller
     public function __construct()
     {
         self::$web3 = new Web3('http://localhost:8545');
-        self::$contractAddress = "0x82a04bEE9447A15f081463Ed80Cbe8bbC06D9a60";
+        self::$contractAddress = "0x6E6944085Ff224c75cC50AdDC052545Ab02f155d";
         $abi = Storage::get('NFTs_abi.json');
         // print_r($abi);
         $bytecode = Storage::get('bytecode.txt');
@@ -194,6 +194,10 @@ class NFTsController extends Controller
         } else {
             // $nfts = NFTsToken::all();
             $nfts = NFTsToken::where('owner', $user->id)->where('status', 0)->get();
+            foreach($nfts as $nft){
+                $creater = User::find($nft->creator);
+                $nft["creator_name"] = $creater->name;
+            }
         }
 
         return response()->json($nfts, 200);
@@ -215,7 +219,7 @@ class NFTsController extends Controller
         $id = $request->input('id');
         $nft = NftsToken::find($id);
         $user = User::find($nft->owner);
-        $nft["owner_name"] = $user->name;
+        // $nft["owner_name"] = $user->name;
         return response()->json($nft, 200);
     }
 
@@ -348,7 +352,7 @@ class NFTsController extends Controller
         $id = $request->input('id');
         $nft = NftsToken::find($id);
         if($nft->owner == $user->id){
-            $nft->status = 0;
+            $nft->status = 1;
             $nft->save();
             return response()->json(["status" => true], 200);
         }
