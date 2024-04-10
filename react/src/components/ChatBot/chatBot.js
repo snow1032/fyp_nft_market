@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let userMessage = null; // Variable to store user's message
     // const API_KEY = "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"; // Paste your API key here
-    // const API_KEY = "94a905c0-57d2-488d-89d4-e7fc0fe77325"; // Paste your API key here
+    // const API_KEY = "cf21cd18-9168-4e2e-b8fb-c8a02a917440"; // Paste your API key here
     const API_KEY = "AIzaSyD2zOeb_Lk4AwlgkWr7BLN5ikqxaqnlbDY"; // google ai
     const inputInitHeight = chatInput ? chatInput.scrollHeight : 1000;
 
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const generateResponse = async (chatElement) => {
         // const API_URL = "https://api.openai.com/v1/chat/completions";
         // const API_URL = "https://esm.run/@google/generative-ai"; //google ai
-        const API_URL = "https://chatgpt.hkbu.edu.hk/general/rest";
+        const API_URL = " https://chatgpt.hkbu.edu.hk/general/rest/deployments/gpt-35-turbo-16k/chat/completions?api-version=2023-08-01-preview";
         const messageElement = chatElement.querySelector("p");
 
         // Define the properties and message for the API request
@@ -72,13 +72,16 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${API_KEY}`
+                "Authorization": `Bearer ${API_KEY}`,
             },
+            // mode: 'no-cors',
             body: JSON.stringify({
                 model: "gpt-3.5-turbo",
+                // model: "no-cors",
                 messages: [{ role: "user", content: userMessage }],
             })
         }
+
 
         // ...
         // google chatbot ai    
@@ -98,8 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // google chatbot ai    
 
         // Send POST request to API, get response and set the reponse as paragraph text
-        // fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
-        //     messageElement.textContent = data.choices[0].message.content.trim();
+        // fetch(API_URL, requestOptions).then(res =>res.json()).then(data => {
+        //     // messageElement.textContent = data.choices[0].message.content.trim();
         //     console.log(data);
         //     // console.log(data.choices[0].message.content.trim());
         // }).catch((error) => {
@@ -108,6 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
         //     messageElement.classList.add("error");
         //     messageElement.textContent = "Oops! Something went wrong. Please try again.";
         // }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
+
+
+
+    
+
+ 
     }
 
 

@@ -174,7 +174,7 @@ const Create = () => {
 
   return (
     <>
-      <CommonSection title="Create Item" />
+      <CommonSection title="Create NFT" />
 
       <section>
         <Container>

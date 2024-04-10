@@ -67,6 +67,7 @@ Route::post('/login_with_addr', [AuthController::class, 'loginWithAddress']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/nft/getNFTs', [NFTsController::class, 'getNFTs']);
+Route::get('/nft/getAllNFTs', [NFTsController::class, 'getAllNFTs']);
 Route::get('/nft/imageURL', [NFTsController::class, 'NFTsImage']);
 Route::get('/nft/get_nft_details', [NFTsController::class, 'getNftDetails']);
 Route::post('/nft/creatorCollection', [NFTsController::class, 'creatorCollection']);

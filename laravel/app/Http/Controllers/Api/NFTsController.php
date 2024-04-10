@@ -169,6 +169,22 @@ class NFTsController extends Controller
         return response()->json($nfts, 200);
     }
 
+    public function getAllNFTs(Request $request){
+        header("Content-Type: application/json");
+        $amount = $request->input("amount");
+        $nfts = NFTsToken::all();
+        foreach($nfts as $nft){
+            $creater = User::find($nft->creator);
+            $nft["creator_name"] = $creater->name;
+        }
+
+        if($amount != null){
+            return array_slice($nfts->toArray(),0,$amount);
+        }
+        return response()->json($nfts, 200);
+    }
+
+
 
 
     public function creatorCollection(Request $request)

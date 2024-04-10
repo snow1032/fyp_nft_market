@@ -4,7 +4,7 @@ import CommonSection from "../components/ui/Common-section/CommonSection";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 import { NFT__DATA } from "../assets/data/data";
-import { NFT__DATA2 } from "../assets/data/data";
+import { NFT__GetAllNFTs } from "../assets/data/data";
 
 import LiveAuction from "../components/ui/Live-auction/LiveAuction";
 
@@ -24,7 +24,7 @@ const NftDetails = () => {
 
 
   useEffect(() => {
-    NFT__DATA2.then((data) => {
+    NFT__GetAllNFTs.then((data) => {
       data.map((item) => {
         if (item.id == id) {
           setSingleNft(item);
@@ -87,6 +87,8 @@ const NftDetails = () => {
                     <p>Created By</p>
                     {/* <h6>  <Link to={`/market/${singleNft.creator}`}>{singleNft.creator}</Link></h6> */}
                     <Link to={`/creatorCollection/${singleNft.creator}`}>{singleNft.creator_name}</Link>
+                    <br/>
+                    <p>Token ID: {singleNft.tokenID}</p>
                   </div>
                 </div>
 

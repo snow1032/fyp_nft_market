@@ -92,7 +92,7 @@ const NftCard = (props) => {
             className="neonButton"
             
           >
-            <i class="ri-shopping-bag-line"></i> Your sell NFT
+            <i class="ri-shopping-bag-line"></i> You are owner
           </button> : <button
             className="neonButton"
             onClick={() => setShowModal(true)}
@@ -103,7 +103,7 @@ const NftCard = (props) => {
 
           {showModal && <Modal setShowModal={setShowModal} ethPrice={price} nftID={id} name={name} owner={owner} />}
 
-          <span className="history__link">
+          <span className="history__link" Style="padding-left: 5px;">
             <Link to={`/market/${id}`}>View History</Link>
           </span>
         </div>

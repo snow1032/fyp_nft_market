@@ -116,6 +116,14 @@ export const NFT__DATA2 = fetch('http://127.0.0.1:8000/api/nft/getNFTs')
 
   });
 
+  export const NFT__GetAllNFTs = fetch('http://127.0.0.1:8000/api/nft/getAllNFTs')
+  .then((res) => res.json())
+  .then((data) => {
+
+    return data
+
+  });
+
   const accessToken = localStorage.getItem('ACCESS_TOKEN');
   
   export const NFT__CollectionData = fetch('http://127.0.0.1:8000/api/nft/collectionNFT', {
