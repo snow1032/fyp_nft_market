@@ -8,6 +8,7 @@ import "../../../assets/css/button.css";
 import Modal from "../Modal/Modal";
 
 const CreatorNFTList = (props) => {
+  
   console.log(props.item);
   // const { title, id, currentBid, creatorImg, imgUrl, creator} = props.item;
   const { id, name, url, creator, owner, tokenID, price, royalties, description, cid ,cidV1,creator_name} = props.item;
@@ -62,8 +63,7 @@ const CreatorNFTList = (props) => {
             <i class="ri-shopping-bag-line"></i> selled
           </button>}
       
-
-          {showModal && <Modal setShowModal={setShowModal} ethPrice={price} nftID={id} name={name} />}
+          {showModal && <Modal setShowModal={setShowModal} ethPrice={price} nftID={id} name={name} owner={owner} />}
 
             <span className="history__link">
               <Link to={`/market/${id}`}>View History</Link>

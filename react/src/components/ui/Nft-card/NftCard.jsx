@@ -82,7 +82,7 @@ const NftCard = (props) => {
             className="bid__btn d-flex align-items-center gap-1"
             onClick={() => setShowModal(true)}
           > */}
-          {console.log(localStorage.getItem('UserId'))}
+          {/* {console.log(localStorage.getItem('UserId'))} */}
           {owner == localStorage.getItem('UserId') && status == 0 ? <button
             className="neonButton"
             onClick={handleSell}

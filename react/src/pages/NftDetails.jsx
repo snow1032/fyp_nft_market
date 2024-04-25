@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 import { NFT__DATA } from "../assets/data/data";
 import { NFT__GetAllNFTs } from "../assets/data/data";
+import Modal from "../components/ui/Modal/Modal";
+
 
 import LiveAuction from "../components/ui/Live-auction/LiveAuction";
 
@@ -21,14 +23,14 @@ const NftDetails = () => {
   // const {  name, url, creator, owner, tokenID, price, royalties, description, cid ,cidV1} = useState(NFT__DATA2.then((data) => { data.map((item) => { if (item.id == id) { return data; } }) }));
 
 
-
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     NFT__GetAllNFTs.then((data) => {
       data.map((item) => {
         if (item.id == id) {
           setSingleNft(item);
-     
+
         }
 
       })
@@ -48,7 +50,7 @@ const NftDetails = () => {
           <Row>
             <Col lg="6" md="6" sm="6">
               <img
-                src={"http://"+singleNft.cidV1+".ipfs.localhost:8080/?filename=" + singleNft.cid}
+                src={"http://" + singleNft.cidV1 + ".ipfs.localhost:8080/?filename=" + singleNft.cid}
                 alt=""
                 className="w-100 single__nft-img"
               />
@@ -59,14 +61,14 @@ const NftDetails = () => {
                 <h2>{singleNft.title}</h2>
 
                 <div className=" d-flex align-items-center justify-content-between mt-4 mb-4">
-                  <div className=" d-flex align-items-center gap-4 single__nft-seen">
+                  {/* <div className=" d-flex align-items-center gap-4 single__nft-seen">
                     <span>
                       <i class="ri-eye-line"></i> 234
                     </span>
                     <span>
                       <i class="ri-heart-line"></i> 123
                     </span>
-                  </div>
+                  </div> */}
 
                   <div className=" d-flex align-items-center gap-2 single__nft-more">
                     <span>
@@ -87,21 +89,37 @@ const NftDetails = () => {
                     <p>Created By</p>
                     {/* <h6>  <Link to={`/market/${singleNft.creator}`}>{singleNft.creator}</Link></h6> */}
                     <Link to={`/creatorCollection/${singleNft.creator}`}>{singleNft.creator_name}</Link>
-                    <br/>
-                    <p>Token ID: {singleNft.tokenID}</p>
+                    <p>Creator address: {singleNft.creator_address}</p>
+                    <br />
+                    {/* <p>Token ID: {singleNft.tokenID}</p> */}
                   </div>
                 </div>
 
                 <p className="my-4">{singleNft.description}</p>
-                <button className="singleNft-btn d-flex align-items-center gap-2 w-100">
-                  <i class="ri-shopping-bag-line"></i>
-                  <Link to="/wallet">Place a Bid</Link>
-                </button>
+                {singleNft.owner == localStorage.getItem('UserId') && singleNft.status == 0 ?
+                  <button className="singleNft-btn d-flex align-items-center gap-2 w-100">
+                    <i class="ri-shopping-bag-line"></i>
+                    <Link to="/wallet">Sell</Link>
+                  </button> :
+                  singleNft.owner == localStorage.getItem('UserId') && singleNft.status == 1 ?
+                    <button className="singleNft-btn d-flex align-items-center gap-2 w-100">
+                      <i class="ri-shopping-bag-line"></i>
+                      <Link to="/wallet">You are owner</Link>
+                    </button> :
+                    <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => setShowModal(true)}>
+                      <i class="ri-shopping-bag-line"></i>
+                      <Link to="/wallet">Buy</Link>
+                    </button>
+                }
+
+
+
+                {showModal && <Modal setShowModal={setShowModal} ethPrice={singleNft.price} nftID={singleNft.id} name={singleNft.name} owner={singleNft.owner} />}
               </div>
             </Col>
           </Row>
         </Container>
-      </section>  
+      </section>
 
       <LiveAuction />
     </>

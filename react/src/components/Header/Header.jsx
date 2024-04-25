@@ -4,6 +4,7 @@ import { Container } from "reactstrap";
 import { NavLink, Link } from "react-router-dom";
 import { ethers } from 'ethers';
 import Swal from "sweetalert";
+import Profile from "../../pages/Profile";
 
 
 
@@ -32,6 +33,11 @@ const NAV__LINKS = [
     display: "Login",
     url: "/login",
   },
+  {
+    display: "Register",
+    url: "/register",
+  },
+
 
 ];
 
@@ -49,6 +55,7 @@ const Header = () => {
 
     // setUserName(localStorage.getItem('ACCESS_TOKEN').user.name)
     // console.log(localStorage.getItem('ACCESS_TOKEN'))
+    
 
     window.addEventListener("scroll", () => {
       if (
@@ -132,8 +139,8 @@ const Header = () => {
           timer: 1500,
         }).then(() => { window.location.reload(); });
       });
-        localStorage.removeItem('ACCESS_TOKEN');
-       
+    localStorage.removeItem('ACCESS_TOKEN');
+
   }
 
   return (
@@ -162,17 +169,19 @@ const Header = () => {
 
 
                     {
-                      item.display == "Login" && localStorage.getItem('ACCESS_TOKEN') != null ?   <div class="dropdown nav__right">
-                      <button class="btn d-flex gap-2 align-items-center iconButton login__icon" Style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{localStorage.getItem("ACCESS_TOKEN")}</button>
-                      <div class="dropdown-content">
-                        <a class="dropdown-item" href="#" onClick={handleLogout}> Logout </a>
-                        <a class="dropdown-item" href="#">Contact </a>
-                        <a class="dropdown-item" href="#"> Notifications </a>
-                        <a class="dropdown-item" href="#"> Setting </a>
-                      </div>
-                    </div> : item.display
+                      item.display == "Login" && localStorage.getItem('ACCESS_TOKEN') != null ? <div class="dropdown nav__right">
+                        <button class="btn d-flex gap-2 align-items-center iconButton login__icon" Style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{localStorage.getItem("ACCESS_TOKEN")}</button>
+                        <div class="dropdown-content">
+                          <a class="dropdown-item" href="#" onClick={handleLogout}> Logout </a>
+                          <Link to={`/Profile`}> <a class="dropdown-item" href="#">Profile</a></Link>
+                          {/* <a class="dropdown-item" href="#"> Notifications </a>
+                          <a class="dropdown-item" href="#"> Setting </a> */}
+                        </div>
+                      </div>:item.display == "Register" && localStorage.getItem('ACCESS_TOKEN') != null ? "" : item.display
                       // item.display
                     }
+
+                 
 
                     {/* {item.display} */}
 
@@ -183,8 +192,8 @@ const Header = () => {
           </div>
 
           <div className="nav__right d-flex align-items-center gap-5 ">
-            <button className="btn d-flex gap-2 align-items-center" Style="position: absolute;" 
-             onClick={connectWallentAccount}>
+            <button className="btn d-flex gap-2 align-items-center" Style="position: absolute;"
+              onClick={connectWallentAccount}>
               <span>
                 <i class="ri-wallet-line"></i>
               </span>
@@ -198,7 +207,7 @@ const Header = () => {
             </span>
           </div>
 
-        
+
         </div>
 
 
