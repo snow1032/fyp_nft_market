@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profile/upload_backdrop', [ProfileController::class, 'uploadBackdrop']);
     Route::get('/profile/backdrop', [ProfileController::class, 'getBackdrop']);
     Route::post('/profile/profile_data', [ProfileController::class, 'getProfile']);
+    Route::post('/profile/update_profile_data', [ProfileController::class, 'updateProfile']);
     Route::post('/profile/getBoughtNFTs', [ProfileController::class, 'getBoughtNFTs']);
 
     //ETH and NFTs
@@ -72,3 +73,5 @@ Route::get('/nft/imageURL', [NFTsController::class, 'NFTsImage']);
 Route::get('/nft/get_nft_details', [NFTsController::class, 'getNftDetails']);
 Route::post('/nft/creatorCollection', [NFTsController::class, 'creatorCollection']);
 Route::post('/nft/getOwnerAddress', [NFTsController::class, 'getOwnerAddress']);
+Route::post('/nft/getTranscation', [NFTsController::class, 'getTranscation']);
+Route::post('/nft/getTransactionHistory', [NFTsController::class, 'getTransactionHistory']);

@@ -148,7 +148,7 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string',
@@ -195,6 +195,16 @@ class AuthController extends Controller
      *     )
      * )
      */
+
+    // public function getUserDetail(Rquest $request)
+    // {
+    //     try {
+    //         $user = $request->user();
+    //         return response()->json($user, 200);
+    //     } catch (Exception $ex) {
+    //         return response()->json(['status' => false], 200);
+    //     }
+    // }
 
     public function logout(Rquest $request)
     {

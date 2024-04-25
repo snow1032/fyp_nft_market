@@ -15,7 +15,8 @@ class ProfileController extends Controller
 {
     //
 
-    public function uploadIcon(Request $request){
+    public function uploadIcon(Request $request)
+    {
         $request->validate([
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:102400',
         ]);
@@ -24,8 +25,8 @@ class ProfileController extends Controller
 
         if ($request->hasFile('photo') && $user) {
 
-            if($user->icon){
-                Storage::delete('icon/'. $user->icon);
+            if ($user->icon) {
+                Storage::delete('icon/' . $user->icon);
             }
 
             $file = $request->file('photo');
@@ -41,10 +42,10 @@ class ProfileController extends Controller
             return response('OK');
         }
         return response('Error');
-
     }
 
-    public function uploadBackdrop(Request $request){
+    public function uploadBackdrop(Request $request)
+    {
         $request->validate([
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:102400',
         ]);
@@ -52,8 +53,8 @@ class ProfileController extends Controller
         $user = $request->user();
 
         if ($request->hasFile('photo') && $user) {
-            if($user->backdrop){
-                Storage::delete('backdrop/'. $user->backdrop);
+            if ($user->backdrop) {
+                Storage::delete('backdrop/' . $user->backdrop);
             }
             $file = $request->file('photo');
             $id = Str::uuid()->toString();
@@ -69,13 +70,14 @@ class ProfileController extends Controller
         return response('Error');
     }
 
-    public function getIcon(Request $request){
+    public function getIcon(Request $request)
+    {
         $user = $request->user();
         $image_path = "";
 
-        if($user->icon){
+        if ($user->icon) {
             $image_path = 'icon/' . $user->icon;
-        }else{
+        } else {
             $image_path = 'icon/' . "default.png";
         }
 
@@ -86,13 +88,14 @@ class ProfileController extends Controller
         return $response;
     }
 
-    public function getBackdrop(Request $request){
+    public function getBackdrop(Request $request)
+    {
         $user = $request->user();
         $image_path = "";
 
-        if($user->backdrop){
+        if ($user->backdrop) {
             $image_path = 'backdrop/' . $user->backdrop;
-        }else{
+        } else {
             $image_path = 'backdrop/' . "default.png";
         }
         $file = Storage::get($image_path);
@@ -103,18 +106,31 @@ class ProfileController extends Controller
     }
 
 
-    public function getProfile(Request $request){
+    public function getProfile(Request $request)
+    {
         $user = $request->user();
         $user_profile = User::find($user->id);
 
-        return response()->json([
-            'name' => $user_profile->name,
-            'email' => $user_profile->email,
-            'biography' => $user_profile->biography,
-        ], 200);
+        // return response()->json([
+        //     'name' => $user_profile->name,
+        //     'email' => $user_profile->email,
+        //     'biography' => $user_profile->biography,
+        // ], 200);
+        return response()->json($user_profile, 200);
     }
 
-    public function getBoughtNFTs(Request $request){
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->save();
+        return response()->json(["status" =>true], 200);
+    }
+
+    public function getBoughtNFTs(Request $request)
+    {
         $user = $request->user();
         $boughtNFTs = NftsToken::where('owner', $user->id)->get();
 
